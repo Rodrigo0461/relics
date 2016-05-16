@@ -1,3 +1,4 @@
+
 <div class="container">
    
   <div class="row">
@@ -17,21 +18,31 @@
       </div> 
        <div class="col-sm-9">
 	
-       <h3><i class="glyphicon glyphicon-dashboard"></i> Bootply Dashboard</h3>  
+       <h3><i class="glyphicon glyphicon-dashboard"></i> Uptime New Relics</h3>  
             <hr>
       
-	    <div class="row">
-                <table cellpadding=0 cellspacing=10 class="table">
+	    <div class="row" width="80%">
+              <table id="example" class="display" cellspacing="0" width="90%">
+                    <thead>
                     <tr>
         		<th>financiador</th>
                 	<th>codigo</th>
                     </tr>
-                <?php foreach (  $this->data as $fin):?>
+                    </thead>
+                    <tfoot>
                     <tr>
+        		<th class="success">financiador</th>
+                	<th>codigo</th>
+                    </tr>  
+                    </tfoot>
+                    <tbody>
+                <?php foreach (  $this->data as $fin):?>
+                    <tr class="success">
                           <td><?php echo htmlspecialchars($fin->financiador,ENT_QUOTES,'UTF-8');?></td>
                           <td><?php echo htmlspecialchars($fin->cod_financiador,ENT_QUOTES,'UTF-8');?></td>
                     </tr>
                 <?php endforeach;?>
+                    </tbody>
                 </table>
          	
             </div>
@@ -39,8 +50,11 @@
     
   </div>
   </div>
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-		<script src="<?php echo base_url(); ?>assets/js/bootstrap.min.js"></script>
+          <script>
+             $(document).ready(function() {
+             $('#example').DataTable();
+                } );
+        </script>
 	</body>
 </html>
 
