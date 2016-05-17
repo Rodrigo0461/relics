@@ -59,8 +59,11 @@
   </div>
           <script>
              $(document).ready(function() {
-             $('#example').DataTable();
-                } );
+                $('#example').DataTable( {
+                      "bFilter": false,
+                       "bLengthChange" : false
+    } );
+} );
         </script>
 	</body>
 </html>

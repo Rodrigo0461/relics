@@ -1,12 +1,12 @@
-var oTable, quote_numbr, rut_client, client_name, user_id, from_date, to_date;
+//var oTable, quote_numbr, rut_client, client_name, user_id, from_date, to_date;
+var oTable, financiador, cod_financiador; 
 $(function() {
     
     $("#date_search").click(function() {
-        rut_client   = $("#financiador").val();
+        financiador   = $("#financiador").val();
         $(".res-sec").css("display","");
         oTable.fnDraw();
-        //$("#search-form-div").css("display","none");
-         
+      
    });
    
     oTable = $("#result_table").dataTable({
@@ -26,7 +26,7 @@ $(function() {
 
             });
         },
-        "sAjaxSource": "home/financiador_table",
+        "sAjaxSource": "financiador_table",
         "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todo"]],
 	"aaSorting": [[1, 'ASC']],
         "bAutoWidth": false,
@@ -34,9 +34,7 @@ $(function() {
             {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "50%", "bVisible": true, "bSearchable": false, "bSortable": true},
             {"sWidth": "10%", "bVisible": true, "bSearchable": false, "bSortable": false},
-            {"sWidth": "10%", "bVisible": true, "bSearchable": false, "bSortable": false},
-            {"sWidth": "10%", "bVisible": true, "bSearchable": false, "bSortable": false},
-            {"sWidth": "10%", "bVisible": true, "bSearchable": false, "bSortable": false},
+           
         ],
         "oLanguage": {
             "sLengthMenu": "Mostrar _MENU_ entradas",
