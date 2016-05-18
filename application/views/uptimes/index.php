@@ -1,5 +1,4 @@
 <div class="container">
-    
   <div class="row">
       <div class="col-sm-3">
       <h3><i class="glyphicon glyphicon-briefcase"></i> Toolbox</h3>
@@ -14,38 +13,31 @@
        <div class="col-sm-9">
            
        <h3><i class="glyphicon glyphicon-dashboard"></i> Uptime New Relics</h3>  
-            <hr>
+        
             <div>
-            <select class="dropdown">
-            <?php 
-                foreach (  $this->data as $row)
-                { 
-                  echo '<option value="'.$row->financiador.'">'.$row->financiador.'</option>';
-                }
-            ?>
-            </select>
-                <hr width="80%">.
+                <hr width="100%">
             </div>
          
-	    <div class="row" width="80%">
+	    <div class="row" width="100%">
                 <table id="example" class="display" cellspacing="0" width="90%">
                     <thead>
                     <tr>
-        		<th>financiador</th>
-                	<th>codigo</th>
+        		<th>Cod Financiador </th>
+                	<th>Financiador </th>
+                        <th>Date </th>
+                        <th>Estado</th>
+                        <th>Acción</th>
                     </tr>
                     </thead>
-                    <tfoot>
-                    <tr>
-        		<th class="success">financiador</th>
-                	<th>codigo</th>
-                    </tr>  
-                    </tfoot>
+                   
                     <tbody>
                 <?php foreach (  $this->data as $fin):?>
                     <tr class="success">
-                          <td><?php echo htmlspecialchars($fin->financiador,ENT_QUOTES,'UTF-8');?></td>
-                          <td><?php echo htmlspecialchars($fin->cod_financiador,ENT_QUOTES,'UTF-8');?></td>
+                          <td><?php echo htmlspecialchars($fin->financiador,ENT_QUOTES,'UTF-8');?>      </td>
+                          <td><?php echo htmlspecialchars($fin->cod_financiador,ENT_QUOTES,'UTF-8');?>  </td>
+                          <td><?php echo htmlspecialchars($fin->timestamp,ENT_QUOTES,'UTF-8');?>        </td>
+                          <td><?php if($fin->estado==1){?> <span class="glyphicon glyphicon-remove-sign"> </span> <?php }?>  </td>
+                          <td><button type="button"  class="btn btn-info info" data-id="<?php $fin->cod_financiador; ?>">  Info</button></td>
                     </tr>
                 <?php endforeach;?>
                     </tbody>
@@ -59,12 +51,11 @@
   </div>
           <script>
              $(document).ready(function() {
-                $('#example').DataTable( {
-                      "bFilter": false,
-                       "bLengthChange" : false
-    } );
-} );
+                $('#example').DataTable();
+                } );
         </script>
+        
+        
 	</body>
 </html>
 

@@ -8,21 +8,18 @@ class Uptime extends CI_Model {
         $this->table  = 'uptime';
         
     }
-    //function for adding client details to Cliente table
    
     
    function get_financiador_details($select = null, $where = null, $sort = null, $limit = null, $ext_join = null) {
         $sort = 'cod_financiador';
         //$select variable assign the different table fields, default value is null
         if ($select == "") {
-            $sql = "SELECT DISTINCT financiador,cod_financiador";
+            $sql = "SELECT  financiador,cod_financiador,timestamp,estado";
         } 
             
         //adding default table and joins to query 
         $sql .= " FROM $this->table";
 
-       // echo $sql;die();
-        //adding extra joins to query, if any joins passed with parmeter $ext_join
         if ($ext_join != "") {
             $sql .= " $ext_join ";
         }
@@ -48,12 +45,11 @@ class Uptime extends CI_Model {
     }
     
        function get_financiador_count() {
-        $sql="SELECT count(1) AS count FROM $this->table";
-       // echo $sql; die();
+        $sql="select count(1) AS count from (select distinct financiador from $this->table  ) as resultado";
         $query = $this->db->query($sql);
-       // print_r($query);
        if($query) {
             $result = $query->result();
+            //print_r($result);die();
             return $result[0]->count;
         }
 
