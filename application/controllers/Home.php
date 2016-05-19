@@ -1,9 +1,6 @@
 <?php
-
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Home extends CI_Controller {
-
     function __construct() {
         parent::__construct();
         $this->load->database();
@@ -16,7 +13,6 @@ class Home extends CI_Controller {
     }
     
     function index($page = 'home', $id = NULL, $source = NULL) {
-
         if (!$this->ion_auth->logged_in()) {
             //redirect them to the login page
             redirect('welcome', 'refresh');
@@ -30,7 +26,6 @@ class Home extends CI_Controller {
     }
     
     public function financiador_list() {
-
         if (!$this->ion_auth->logged_in()) {
             //redirect them to the login page
             redirect('auth/login', 'refresh');
@@ -38,10 +33,9 @@ class Home extends CI_Controller {
             //set the flash data error message if there is one
            
             $this->data['title'] = 'financiadores';
-
            
             $this->load->view('templates/header', $this->data);
-            $this->load->view('financiador/search_filter', $this->data);
+          //  $this->load->view('financiador/search_filter', $this->data);
             $this->load->view('financiador/financiador_list', $this->data);
         
         }
@@ -50,14 +44,19 @@ class Home extends CI_Controller {
     public function financiador_table() {
         /* Indexed column (used for fast and accurate table cardinality) */
         $sIndexColumn = "cod_financiador";
-        $aColumns = array('financiador', 'cod_financiador');
+        $aColumns = array(
+            'financiador',
+            'cod_financiador',
+            'timestamp',
+            'estado',
+            'actions'
+        );
+       // $aColumns = array('financiador', 'cod_financiador','timestamp','estado','action');
         $iDisplayStart = 0;
         $iDisplayLength = 5;
       
-
         $sLimit = "";
         $sort = "cod_financiador DESC";
-
         $financiador =  $this->input->get_post('financiador', true);
        
         
@@ -82,7 +81,6 @@ class Home extends CI_Controller {
             "limit" => $sLimit,
             "aaData" => array()
         );
-
         if (!isset($count))
             $count = 1; 
         
@@ -90,15 +88,29 @@ class Home extends CI_Controller {
         foreach ($financiadores as $aRow) {
             
             $row = array();
-            for ($i = 0; $i < count($aColumns); $i++) {
-              
-                        $row[] = $aRow->$aColumns[$i];
-            }
+            for($i=0;$i<count($aColumns);$i++)
+            {
+                switch ($aColumns[$i])
+                {
+                  
 
+                    case 'actions':
+                        
+                        $btn = '<div class="btn-group" role="group">';
+                       // $btn .= '<button type="button" class="btn btn-danger delete" data-id="'. $user->id .'">'.$this->lang->line('admin_delete').'</button>';
+                        $btn .= '<button type="button" class="btn btn-info info" info-id="'. $aRow->cod_financiador.'">iNFO</button>';
+                        $btn .= '</div>';
+                        
+                        $row[] = $btn;
+                        break;
+                    default:
+                        $row[] = $aRow->$aColumns[$i];
+                        break;
+                }
+            }
             $output['aaData'][] = $row;
             $count++;
         }
-
         echo json_encode($output);
     }
      

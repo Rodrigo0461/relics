@@ -1,4 +1,3 @@
-//var oTable, quote_numbr, rut_client, client_name, user_id, from_date, to_date;
 var oTable, financiador, cod_financiador; 
 $(function() {
     
@@ -31,8 +30,10 @@ $(function() {
 	"aaSorting": [[1, 'ASC']],
         "bAutoWidth": false,
         "aoColumns": [
+            {"sWidth": "20%", "bVisible": true, "bSearchable": true, "bSortable": true},
+            {"sWidth": "20%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
-            {"sWidth": "50%", "bVisible": true, "bSearchable": false, "bSortable": true},
+            {"sWidth": "20%", "bVisible": true, "bSearchable": false, "bSortable": true},
             {"sWidth": "10%", "bVisible": true, "bSearchable": false, "bSortable": false},
            
         ],
@@ -46,6 +47,22 @@ $(function() {
         }
     });
     
+    
+     $(document).on('click', '.info', function(){
+        var id = $(this).data('id');
+        bootbox.confirm("Advertencia - esta acción es irreversible!<br />Esta seguro  eliminar el usuario?", function(result) {
+            if(result) {
+                $.get(base_url + "auth/delete_user/" + id, function(response) {
+                    if(response.type == "error") {
+                        bootbox.alert(response.message, function(r) { });
+                    } else {
+                        /*$.get(base_url + "admin/delete_messages/" + id, function(response) {
+                            
+                        });*/
+                        users.ajax.reload();
+                    }
+                });
+            }
+        }); 
+    });
 });  
-
-
