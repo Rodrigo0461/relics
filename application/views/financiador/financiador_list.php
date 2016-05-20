@@ -28,4 +28,3 @@
  </section>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/financiador_table.js"></script> 
-

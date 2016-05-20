@@ -6,6 +6,7 @@ class Uptime extends CI_Model {
         parent::__construct();
        
         $this->table  = 'uptime';
+        $this->table2  = 'SLA112014';
         
     }
    
@@ -36,13 +37,31 @@ class Uptime extends CI_Model {
         if ($limit != "") {
             $sql .= " LIMIT $limit ";
         }
-        
+         
         $query = $this->db->query($sql);
-        if ($query) {
+       //var_dump($query);die();
+
+        if ($query) { 
             return $query->result();
         } else
             return array();
     }
+    
+    
+     function get_view_financiador($cod) {
+        
+         $sql="SELECT distinct f.financiador, s.NamePrestador,s.Dayxweek, CONCAT (s.Hour,':',s.Minute) AS HORA  FROM $this->table f, $this->table2 s WHERE f.estado=1 AND f.financiador=s.NameFinanciador AND f.cod_financiador=$cod ";
+//         echo $sql;die();
+         $query = $this->db->query($sql);
+         if ($query) { 
+            return $query->result();
+        } else
+            return array();
+         
+         
+     }
+    
+    
     
        function get_financiador_count() {
         $sql="select count(1) AS count from (select distinct financiador from $this->table  ) as resultado";

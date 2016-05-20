@@ -21,6 +21,7 @@ class Home extends CI_Controller {
             $this->data= $this->uptime->get_financiador_details('');
             $this->load->view('templates/header');
             $this->load->view('home/index',$this->data);
+           // var_dump($expression);die();
            
         }
     }
@@ -51,7 +52,6 @@ class Home extends CI_Controller {
             'estado',
             'actions'
         );
-       // $aColumns = array('financiador', 'cod_financiador','timestamp','estado','action');
         $iDisplayStart = 0;
         $iDisplayLength = 5;
       
@@ -63,17 +63,18 @@ class Home extends CI_Controller {
         if (isset($iDisplayStart) && $iDisplayLength != '-1') {
             $sLimit = $iDisplayStart . "," . $iDisplayLength;
         }
-        // Ordering
         
         $search = "";
   
-                    // querys to databases to uptime
         $financiadores      = $this->uptime->get_financiador_details();
+       
         $totalfinanciadores = $this->uptime->get_financiador_count();
-        
-        //echo $totalfinanciadores;die();
-        
-        
+//         foreach ($financiadores as $aRow) {
+//             $date = date_create($aRow->timestamp);
+//             //$date=$aRow->timestamp;
+//             var_dump(date_format($date, 'H:i'));
+//         }
+//        die();
         $output = array(
             "sEcho" => intval(@$_GET['sEcho']),
             "iTotalRecords" => $totalfinanciadores,
@@ -92,15 +93,11 @@ class Home extends CI_Controller {
             {
                 switch ($aColumns[$i])
                 {
-                  
 
                     case 'actions':
-                        
                         $btn = '<div class="btn-group" role="group">';
-                       // $btn .= '<button type="button" class="btn btn-danger delete" data-id="'. $user->id .'">'.$this->lang->line('admin_delete').'</button>';
-                        $btn .= '<button type="button" class="btn btn-info info" info-id="'. $aRow->cod_financiador.'">iNFO</button>';
+                        $btn .= '<a class="btn btn-primary"  href="view_financiador/'.$aRow->cod_financiador.'" role="button">Detalle</a>';
                         $btn .= '</div>';
-                        
                         $row[] = $btn;
                         break;
                     default:
@@ -112,7 +109,20 @@ class Home extends CI_Controller {
             $count++;
         }
         echo json_encode($output);
+         
     }
-     
     
+    public function view_financiador($cod) {
+        //print_r($id);die();
+        $this->data=$this->uptime->get_view_financiador($cod);
+        //$this->data=$this->uptime->get_view_financiador($id);
+//        var_dump($this->data);die(); 
+                    
+        $this->load->view('templates/header', $this->data);
+        $this->load->view('uptimes/index', $this->data);
+        
+         
+     }
+    
+     
 }

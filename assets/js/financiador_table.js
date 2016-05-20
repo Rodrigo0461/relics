@@ -28,11 +28,11 @@ $(function() {
         "sAjaxSource": "financiador_table",
         "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "Todo"]],
 	"aaSorting": [[1, 'ASC']],
-        "bAutoWidth": false,
+        "bAutoWidth": true,
         "aoColumns": [
             {"sWidth": "20%", "bVisible": true, "bSearchable": true, "bSortable": true},
-            {"sWidth": "20%", "bVisible": true, "bSearchable": true, "bSortable": true},
-            {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
+            {"sWidth": "15%", "bVisible": true, "bSearchable": true, "bSortable": true},
+            {"sWidth": "30%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "20%", "bVisible": true, "bSearchable": false, "bSortable": true},
             {"sWidth": "10%", "bVisible": true, "bSearchable": false, "bSortable": false},
            
@@ -50,16 +50,14 @@ $(function() {
     
      $(document).on('click', '.info', function(){
         var id = $(this).data('id');
-        bootbox.confirm("Advertencia - esta acción es irreversible!<br />Esta seguro  eliminar el usuario?", function(result) {
+        
+        bootbox.confirm("Detalle- Ver Financiador<br />Esta seguro  eliminar el usuario?", function(result) {
             if(result) {
-                $.get(base_url + "auth/delete_user/" + id, function(response) {
+                $.get(base_url + "home", function(response) {
                     if(response.type == "error") {
                         bootbox.alert(response.message, function(r) { });
                     } else {
-                        /*$.get(base_url + "admin/delete_messages/" + id, function(response) {
-                            
-                        });*/
-                        users.ajax.reload();
+                          window.location.href = base_url + 'home/'
                     }
                 });
             }
