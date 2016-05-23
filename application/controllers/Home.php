@@ -15,12 +15,14 @@ class Home extends CI_Controller {
     function index($page = 'home', $id = NULL, $source = NULL) {
         if (!$this->ion_auth->logged_in()) {
             //redirect them to the login page
-            redirect('welcome', 'refresh');
+            redirect('auth/login', 'refresh');
+
         } 
         else {
             $this->data= $this->uptime->get_financiador_details('');
             $this->load->view('templates/header');
-            $this->load->view('home/index',$this->data);
+            $this->load->view('financiador/financiador_list', $this->data);
+            //$this->load->view('home/index',$this->data);
            // var_dump($expression);die();
            
         }

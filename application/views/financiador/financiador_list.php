@@ -1,12 +1,29 @@
-<!-- Content Header (Page header) -->
- <section class="res-sec">
 <div class="container">
+  <div class="row">
+
+    
+    <div class="col-sm-3">
+      <h3><i class="glyphicon glyphicon-briefcase"></i> Toolbox</h3>
+      <hr>
+      <ul class="nav nav-stacked">
+        <li><a href="financiador_list" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
+        <li><a href="#" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
+      </ul>
+      <hr>
+    </div> 
+
+<!-- Content Header (Page header) -->
+ <div class="col-sm-9">
+<div class="res-sec" id="section" >
+    
+
 <div class="content-wrapper">
-    <section class="content row" id="content">
-        <h1>Financiadores</h1>
+    <div class="content row" id="content">
+       
         <div class="row">
-            <div class="col-lg-12">
-                <table class="table table-striped table-responsive" id="result_table">
+            <div class="col-sm-9">
+                 <h2>Financiadores</h2>
+                <table class="table table-striped table-responsive" id="result_table" cellspacing="0" width=100%" >
                     <thead>
                         <tr>
                             <th>financiador</th>
@@ -22,9 +39,11 @@
                 </table>
             </div>
         </div>
-    </section>
+    </div>
 </div>
 </div>
- </section>
+</div>
+ </div>
+</div>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/financiador_table.js"></script> 

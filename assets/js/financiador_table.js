@@ -3,7 +3,7 @@ $(function() {
     
     $("#date_search").click(function() {
         financiador   = $("#financiador").val();
-        $(".res-sec").css("display","");
+        $(".res-sec").css("display","width:50px");
         oTable.fnDraw();
       
    });
@@ -30,11 +30,11 @@ $(function() {
 	"aaSorting": [[1, 'ASC']],
         "bAutoWidth": true,
         "aoColumns": [
-            {"sWidth": "20%", "bVisible": true, "bSearchable": true, "bSortable": true},
-            {"sWidth": "15%", "bVisible": true, "bSearchable": true, "bSortable": true},
+            {"sWidth": "25%", "bVisible": true, "bSearchable": true, "bSortable": true},
+            {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "30%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "20%", "bVisible": true, "bSearchable": false, "bSortable": true},
-            {"sWidth": "10%", "bVisible": true, "bSearchable": false, "bSortable": false},
+            {"sWidth": "15%", "bVisible": true, "bSearchable": false, "bSortable": false},
            
         ],
         "oLanguage": {

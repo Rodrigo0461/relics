@@ -1,33 +1,24 @@
 <div class="container">
     
   <div class="row">
-      <div class="col-sm-3">
-      <h3><i class="glyphicon glyphicon-briefcase"></i> Toolbox</h3>
-      <hr>
-      <ul class="nav nav-stacked">
-        <li><a href="financiador_list" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
-        <li><a href="#" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
-      </ul>
-      <hr>
       
+      
+      <div class="col-sm-3">
+             <h3><i class="glyphicon glyphicon-briefcase"></i> Toolbox</h3>
+            <hr>
+            <ul class="nav nav-stacked">
+            <li><a href="financiador_list" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
+            <li><a href="#" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
+            </ul>
+            <hr>
       </div> 
-       <div class="col-sm-9">
-           
+      
+      
+      <div class="col-sm-9">
        <h3><i class="glyphicon glyphicon-dashboard"></i> Uptime New Relics</h3>  
             <hr>
-            <div>
-            <select class="dropdown">
-            <?php 
-                foreach (  $this->data as $row)
-                { 
-                  echo '<option value="'.$row->financiador.'">'.$row->financiador.'</option>';
-                }
-            ?>
-            </select>
-                <hr width="80%">.
-            </div>
-         
-	    <div class="row" width="80%">
+                     
+	    <div class="row" width="50%">
                 <table id="example" class="display" cellspacing="0" width="90%">
                     <thead>
                     <tr>
@@ -53,18 +44,18 @@
          	
             </div>
         </div>
+      
+      
+      
   </div>
     
   </div>
   </div>
           <script>
              $(document).ready(function() {
-                $('#example').DataTable( {
-                      "bFilter": false,
-                       "bLengthChange" : false
-    } );
-} );
-        </script>
+                $('#example').DataTable();
+} );<!--
+        </script>-->
 	</body>
 </html>
 
