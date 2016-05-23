@@ -27,7 +27,8 @@
                     <thead>
                         <tr>
                             <th>financiador</th>
-                            <th>cod financiador</th>
+                            <th>cod</th>
+                            <th>year</th>
                             <th>date</th>
                             <th>status </th>
                             <th>action</th>

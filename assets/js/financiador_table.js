@@ -17,7 +17,7 @@ $(function() {
         "bLengthChange": true,
         "bFilter": true,
         "bSort": true,
-        "iDisplayLength": 10,
+        "iDisplayLength": 5,
         "fnServerData": function ( sSource, aoData, fnCallback ) {
             aoData.push( { "name" : "financiador", "value" :  financiador });
             $.getJSON( sSource, aoData, function (json) { 
@@ -32,8 +32,9 @@ $(function() {
         "aoColumns": [
             {"sWidth": "25%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
-            {"sWidth": "30%", "bVisible": true, "bSearchable": true, "bSortable": true},
+            {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "20%", "bVisible": true, "bSearchable": false, "bSortable": true},
+            {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "15%", "bVisible": true, "bSearchable": false, "bSortable": false},
            
         ],

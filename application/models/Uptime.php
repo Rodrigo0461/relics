@@ -15,7 +15,7 @@ class Uptime extends CI_Model {
         $sort = 'cod_financiador';
         //$select variable assign the different table fields, default value is null
         if ($select == "") {
-            $sql = "SELECT  financiador,cod_financiador,timestamp,estado";
+            $sql = "SELECT  financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado";
         } 
             
         //adding default table and joins to query 
@@ -49,16 +49,20 @@ class Uptime extends CI_Model {
     
     
      function get_view_financiador($cod) {
+   
+         $sql=   "   SELECT distinct f.financiador,s.SRBMTotal as sumab, s.NamePrestador,s.Dayxweek, f.timestamp,"
+                 . " EXTRACT(HOUR FROM f.timestamp) AS HORAU, EXTRACT(MINUTE FROM f.timestamp) AS MINUTE, CONCAT (s.Hour,':',s.Minute) AS HORA, CONCAT ('20',Week) AS YEAR "
+                 . " FROM $this->table f, $this->table2 s"
+                 . " WHERE f.estado=1 AND f.financiador=s.NameFinanciador AND f.cod_financiador=$cod " 
+                 . " AND s.Hour=EXTRACT(HOUR FROM f.timestamp)"
+                 . " AND s.Minute=EXTRACT(MINUTE FROM f.timestamp) AND s.Dayxweek=2";
+         
         
-         $sql="SELECT distinct f.financiador, s.NamePrestador,s.Dayxweek, CONCAT (s.Hour,':',s.Minute) AS HORA  FROM $this->table f, $this->table2 s WHERE f.estado=1 AND f.financiador=s.NameFinanciador AND f.cod_financiador=$cod ";
-//         echo $sql;die();
-         $query = $this->db->query($sql);
+        $query = $this->db->query($sql);
          if ($query) { 
             return $query->result();
         } else
             return array();
-         
-         
      }
     
     

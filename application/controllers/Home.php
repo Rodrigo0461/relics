@@ -38,7 +38,6 @@ class Home extends CI_Controller {
             $this->data['title'] = 'financiadores';
            
             $this->load->view('templates/header', $this->data);
-          //  $this->load->view('financiador/search_filter', $this->data);
             $this->load->view('financiador/financiador_list', $this->data);
         
         }
@@ -46,19 +45,22 @@ class Home extends CI_Controller {
     
     public function financiador_table() {
         /* Indexed column (used for fast and accurate table cardinality) */
-        $sIndexColumn = "cod_financiador";
+        $sIndexColumn = "cod_fin";
         $aColumns = array(
             'financiador',
-            'cod_financiador',
+            'cod_fin',
+            'year',
             'timestamp',
             'estado',
             'actions'
         );
+        
         $iDisplayStart = 0;
-        $iDisplayLength = 5;
+        $iDisplayLength = 20;
       
+      
+        $sort = "timestamp DESC";
         $sLimit = "";
-        $sort = "cod_financiador DESC";
         $financiador =  $this->input->get_post('financiador', true);
        
         
@@ -69,18 +71,14 @@ class Home extends CI_Controller {
         $search = "";
   
         $financiadores      = $this->uptime->get_financiador_details();
+        //var_dump($financiadores);die();
        
         $totalfinanciadores = $this->uptime->get_financiador_count();
-//         foreach ($financiadores as $aRow) {
-//             $date = date_create($aRow->timestamp);
-//             //$date=$aRow->timestamp;
-//             var_dump(date_format($date, 'H:i'));
-//         }
-//        die();
+
         $output = array(
-            "sEcho" => intval(@$_GET['sEcho']),
-            "iTotalRecords" => $totalfinanciadores,
-            "iTotalDisplayRecords" => $totalfinanciadores,
+           
+            "iTotalRecords" => 20,
+            "iTotalDisplayRecords" => 20,
             "limit" => $sLimit,
             "aaData" => array()
         );
@@ -98,7 +96,7 @@ class Home extends CI_Controller {
 
                     case 'actions':
                         $btn = '<div class="btn-group" role="group">';
-                        $btn .= '<a class="btn btn-primary"  href="view_financiador/'.$aRow->cod_financiador.'" role="button">Detalle</a>';
+                        $btn .= '<a class="btn btn-primary"  href="view_financiador/'.$aRow->cod_fin.'" role="button">Detalle</a>';
                         $btn .= '</div>';
                         $row[] = $btn;
                         break;
@@ -110,16 +108,14 @@ class Home extends CI_Controller {
             $output['aaData'][] = $row;
             $count++;
         }
+//          print_r($output);die();
         echo json_encode($output);
          
     }
     
     public function view_financiador($cod) {
-        //print_r($id);die();
+        
         $this->data=$this->uptime->get_view_financiador($cod);
-        //$this->data=$this->uptime->get_view_financiador($id);
-//        var_dump($this->data);die(); 
-                    
         $this->load->view('templates/header', $this->data);
         $this->load->view('uptimes/index', $this->data);
         

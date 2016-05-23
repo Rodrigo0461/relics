@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <title>Uptime</title>
        
-        <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-         <link href="<?php echo base_url(); ?>assets/css/styles.css" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <!--<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/financiador_table.js"></script>--> 
-        <script src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js" type="text/javascript"></script>
-        <script src="<?php echo base_url(); ?>assets/js/bootbox.min.js"></script>
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/styles.css" >
+       
+        <script src="<?php echo base_url(); ?>assets/js/plugins/jquery-1.12.4.min.js" type="text/javascript" ></script>
+        <script src="<?php echo base_url(); ?>assets/js/plugins/jquery.dataTables.js" type="text/javascript"></script>
+        <script src="<?php echo base_url(); ?>assets/js/plugins/bootstrap.min.js"></script>
+        <script src="<?php echo base_url(); ?>assets/js/plugins/bootbox.min.js"></script>
     </head>
 	<body>
 
