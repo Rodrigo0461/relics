@@ -7,6 +7,7 @@ class Uptime extends CI_Model {
        
         $this->table  = 'uptime';
         $this->table2  = 'SLA112014';
+        $this->table3  = 'APP_01';
         
     }
    
@@ -79,4 +80,23 @@ class Uptime extends CI_Model {
 
         return 0; 
     }
+    
+    function get_charts_details() {
+        $sql="select `from`,s,t,f from $this->table3 as resultado";
+        
+                
+        $query = $this->db->query($sql);
+        if($query) {
+            return $query->result();
+            //var_dump(json_encode($result, JSON_NUMERIC_CHECK));die();
+           // print json_encode($result);
+            //return $query->result();
+        
+        }
+
+
+        return 0; 
+    }
+    
+    
 }

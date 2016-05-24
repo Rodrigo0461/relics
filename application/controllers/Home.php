@@ -121,6 +121,25 @@ class Home extends CI_Controller {
         
          
      }
+     
+      public function charts_list() {
+        if (!$this->ion_auth->logged_in()) {
+            //redirect them to the login page
+            redirect('auth/login', 'refresh');
+        } else {
+            //set the flash data error message if there is one
+           
+            $this->data['title'] = 'charts';
+            $this->data= json_encode($this->uptime->get_charts_details(''));
+           // var_dump($this->data);die();
+          //  $this->load->view('templates/header', $this->data);
+            $this->load->view('charts/charts_list', $this->data);
+        
+        }
+    }
+     
+     
+     
     
      
 }

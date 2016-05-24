@@ -1,22 +1,20 @@
 <div class="container">
   <div class="row">
-
     
     <div class="col-sm-3">
       <h3><i class="glyphicon glyphicon-briefcase"></i> Toolbox</h3>
       <hr>
       <ul class="nav nav-stacked">
-        <li><a href="financiador_list" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
+        <li><a href="<?php echo base_url(); ?>home/charts_list" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
         <li><a href="#" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
       </ul>
       <hr>
     </div> 
 
 <!-- Content Header (Page header) -->
- <div class="col-sm-9">
+<div class="col-sm-9">
 <div class="res-sec" id="section" >
     
-
 <div class="content-wrapper">
     <div class="content row" id="content">
        
@@ -32,8 +30,6 @@
                             <th>date</th>
                             <th>status </th>
                             <th>action</th>
-                            
-                            
                         </tr>
                     </thead>
                     <tbody></tbody>
