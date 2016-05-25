@@ -45,21 +45,18 @@ class Home extends CI_Controller {
     
     public function financiador_table() {
         /* Indexed column (used for fast and accurate table cardinality) */
-        $sIndexColumn = "cod_fin";
+        $sIndexColumn = "id";
         $aColumns = array(
-            'financiador',
+            'id',
             'cod_fin',
+            'financiador',
             'year',
             'timestamp',
             'estado',
             'actions'
         );
         
-        $iDisplayStart = 0;
-        $iDisplayLength = 20;
       
-      
-        $sort = "timestamp DESC";
         $sLimit = "";
         $financiador =  $this->input->get_post('financiador', true);
        
@@ -71,12 +68,11 @@ class Home extends CI_Controller {
         $search = "";
   
         $financiadores      = $this->uptime->get_financiador_details();
-        //var_dump($financiadores);die();
+       // print_r($financiadores);die();
        
         $totalfinanciadores = $this->uptime->get_financiador_count();
 
         $output = array(
-           
             "iTotalRecords" => 20,
             "iTotalDisplayRecords" => 20,
             "limit" => $sLimit,
@@ -96,7 +92,7 @@ class Home extends CI_Controller {
 
                     case 'actions':
                         $btn = '<div class="btn-group" role="group">';
-                        $btn .= '<a class="btn btn-primary"  href="view_financiador/'.$aRow->cod_fin.'" role="button">Detalle</a>';
+                        $btn .= '<a class="btn btn-primary"  href="view_financiador/'.$aRow->id.'" role="button">Detalle</a>';
                         $btn .= '</div>';
                         $row[] = $btn;
                         break;
@@ -108,14 +104,14 @@ class Home extends CI_Controller {
             $output['aaData'][] = $row;
             $count++;
         }
-//          print_r($output);die();
+          //print_r($output);die();
         echo json_encode($output);
          
     }
     
-    public function view_financiador($cod) {
+    public function view_financiador($id) {
         
-        $this->data=$this->uptime->get_view_financiador($cod);
+        $this->data=$this->uptime->get_view_financiador($id);
         $this->load->view('templates/header', $this->data);
         $this->load->view('uptimes/index', $this->data);
         

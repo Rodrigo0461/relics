@@ -1,15 +1,12 @@
 <div class="container"> 
 
     <div class="row">
-        
-       <!------------------------------------------------------------------------------------------>
        <div class="col-sm-3">
             <h3><i class="glyphicon glyphicon-briefcase"></i> Toolbox</h3>
             <hr>
             <ul class="nav nav-stacked">
-            <li><a href="#" target="ext"><i class="glyphicon glyphicon-flash"></i> Alerts</a></li>
-            <li><a href="#" target="ext"><i class="glyphicon glyphicon-link"></i> Links</a></li>
-            <li><a href="#" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
+            <li><a href="<?php echo base_url(); ?>chart/" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
+        <li><a href="<?php echo base_url(); ?>home/" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
             </ul>
             <hr>
        </div> 
@@ -32,7 +29,10 @@
                     </thead>
                      
                      <tbody>
-                        <?php foreach (  $this->data as $reg):?>
+                        
+                        <?php
+                         $total=0;
+                        foreach (  $this->data as $reg):?>
                         <tr class="success">
                             <td><?php echo htmlspecialchars($reg->financiador,ENT_QUOTES,'UTF-8');?></td>
                             <td><?php echo htmlspecialchars($reg->NamePrestador,ENT_QUOTES,'UTF-8');?></td>
@@ -41,16 +41,17 @@
                             <td><?php echo htmlspecialchars($reg->sumab,ENT_QUOTES,'UTF-8');?></td>
                            
                         </tr>
+                        <?php $total+=$reg->sumab; ?>
                       <?php endforeach;?>
                     </tbody>
                   </table>
+                <?php echo $total; ?>
               </div>
           </div>
         <!------------------------------------------------------------------------------------->
       
     </div>
 </div>  
-		
               <script>
               $(document).ready(function() {
               $('#example').DataTable();

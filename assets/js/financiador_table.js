@@ -1,4 +1,4 @@
-var oTable, financiador, cod_financiador; 
+var oTable,id, financiador, cod_financiador; 
 $(function() {
     
     $("#date_search").click(function() {
@@ -30,12 +30,13 @@ $(function() {
 	"aaSorting": [[1, 'ASC']],
         "bAutoWidth": true,
         "aoColumns": [
-            {"sWidth": "25%", "bVisible": true, "bSearchable": true, "bSortable": true},
+            {"sWidth": "5%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
-            {"sWidth": "20%", "bVisible": true, "bSearchable": false, "bSortable": true},
-            {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
+            {"sWidth": "10%", "bVisible": true, "bSearchable": false, "bSortable": true},
+            {"sWidth": "20%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "15%", "bVisible": true, "bSearchable": false, "bSortable": false},
+            {"sWidth": "5%", "bVisible": true, "bSearchable": false, "bSortable": false},
            
         ],
         "oLanguage": {

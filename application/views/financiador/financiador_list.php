@@ -5,8 +5,8 @@
       <h3><i class="glyphicon glyphicon-briefcase"></i> Toolbox</h3>
       <hr>
       <ul class="nav nav-stacked">
-        <li><a href="<?php echo base_url(); ?>home/charts_list" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
-        <li><a href="#" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
+        <li><a href="<?php echo base_url(); ?>chart/" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
+        <li><a href="<?php echo base_url(); ?>home/" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
       </ul>
       <hr>
     </div> 
@@ -21,11 +21,12 @@
         <div class="row">
             <div class="col-sm-9">
                  <h2>Financiadores</h2>
-                <table class="table table-striped table-responsive" id="result_table" cellspacing="0" width=100%" >
+                <table class="table table-striped table-responsive" id="result_table" cellspacing="0" width=120%" >
                     <thead>
                         <tr>
-                            <th>financiador</th>
+                            <th>id</th>
                             <th>cod</th>
+                            <th>fdores</th>
                             <th>year</th>
                             <th>date</th>
                             <th>status </th>
@@ -38,6 +39,9 @@
         </div>
     </div>
 </div>
+<!----------------------------------------->
+
+
 </div>
 </div>
  </div>

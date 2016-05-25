@@ -1,47 +1,165 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Gráficos</title>
-    <meta name="description" content="A admin dashboard theme that will get you started with Bootstrap 4. The sidebar toggles off-canvas on smaller screens." />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="Codeply">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" />
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
-     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<!--     <script>
-     $(function () { 
-    $('#container').highcharts({
-        chart: {
-            type: 'column',
-            borderWidth: 4,
-            borderRadius: 30
-        },
-        title: {
-            text: 'Fruit Consumption'
-        },
-        xAxis: {
+<div class="container">
 
-            categories: "<?php echo $this->data['s']; ?>",
-        },
-        yAxis: {
-            title: {
-            text: 'Masalah Siswa'
-            }
-        },
-        series: <?php echo $this->data['t']; ?>
-    });
-});
-        </script>-->
+<div class="row">
+<div class="col-sm-3">
+      <h3><i class="glyphicon glyphicon-briefcase"></i> Toolbox</h3>
+      <hr>
+      <ul class="nav nav-stacked">
+        <li><a href="<?php echo base_url(); ?>chart/" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
+        <li><a href="<?php echo base_url(); ?>home/" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
+      </ul>
+      <hr>
+ </div> 
 
-    </head>
-    <body>
-  
+     <script>
+    $(document).ready(function() {
+			var options = {
+	            chart: {
+	                renderTo: 'container2',
+	                type: 'line',
+	                marginRight: 130,
+	                marginBottom: 25
+	            },
+	            title: {
+	                text: 'Uptime App 01',
+	                x: -20 //center
+	            },
+	            subtitle: {
+	                text: "Request's",
+	                x: -20
+	            },
+	            xAxis: {
+	                categories: [],
+                        maxPadding: 2
+
+                       
+	            },
+	            yAxis: {
+	                title: {
+	                    text: 'Requests'
+	                },
+	                plotLines: [{
+	                    value: 0,
+	                    width: 1,
+	                    color: '#808080'
+	                }]
+	            },
+	            tooltip: {
+	                formatter: function() {
+	                        return '<b>'+ this.series.name +'</b><br/>'+
+	                        this.x +': '+ this.y;
+	                }
+	            },
+	            legend: {
+	                layout: 'vertical',
+	                align: 'right',
+	                verticalAlign: 'top',
+	                x: 50,
+	                y: 100,
+	                borderWidth: 0
+	            },
+	            
+	            series: []
+	        }
+	        
+	        $.getJSON("data", function(json) {
+			options.xAxis.categories = json[0]['data'];
+	        	options.series[0] = json[1];
+	        	options.series[1] = json[2];
+	        	options.series[2] = json[3];
+                        
+                        options.series[3] = json[5];
+	        	options.series[4] = json[6];
+	        	options.series[5] = json[7];
+		        chart = new Highcharts.Chart(options);
+	        });
+	    });
+        </script>
+
+        
+          <script>
+    $(document).ready(function() {
+			var options = {
+	            chart: {
+	                renderTo: 'container3',
+	                type: 'line',
+	                marginRight: 130,
+	                marginBottom: 25
+	            },
+	            title: {
+	                text: 'Uptime App 02',
+	                x: -20 //center
+	            },
+	            subtitle: {
+	                text: "Request's",
+	                x: -20
+	            },
+	            xAxis: {
+	                categories: [],
+                        maxPadding: 2
+
+                       
+	            },
+	            yAxis: {
+	                title: {
+	                    text: 'Requests'
+	                },
+	                plotLines: [{
+	                    value: 0,
+	                    width: 1,
+	                    color: '#808080'
+	                }]
+	            },
+	            tooltip: {
+	                formatter: function() {
+	                        return '<b>'+ this.series.name +'</b><br/>'+
+	                        this.x +': '+ this.y;
+	                }
+	            },
+	            legend: {
+	                layout: 'vertical',
+	                align: 'right',
+	                verticalAlign: 'top',
+	                x: 50,
+	                y: 100,
+	                borderWidth: 0
+	            },
+	            
+	            series: [],
+                    colors: ['#7cb5ec', '#434348', '#90ed7d', '#f7a35c', '#8085e9', '#f15c80', '#e4d354', '#2b908f', '#f45b5b', '#91e8e1']
+
+	        }
+	        
+	        $.getJSON("data2", function(json) {
+			options.xAxis.categories = json[0]['data'];
+	        	options.series[0] = json[1];
+	        	options.series[1] = json[2];
+	        	options.series[2] = json[3];
+		        chart = new Highcharts.Chart(options);
+	        });
+	    });
+        </script>
     
-<!--  <div id="container" style="width: 1500px; height: 350px; margin: 1 auto"></div>-->
-<!--    <div id="container2" style="width: 1500px; height: 300px; margin: 1 auto">-->
-        <?php var_dump($this->data); ?>
-  
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+  <script src="http://code.highcharts.com/modules/exporting.js"></script>
+   <div class="col-sm-9">
+  <div class="content-wrapper">
+    <div class="content row" id="content">
+          <div class="row">
+            <div class="col-sm-9">
+    
+    <div id="container2" style="width: 1100px; height: 350px; margin: 1 auto"></div>
+    
+    <hr>
+    
+    <div id="container3" style="width: 1100px; height: 350px; margin: 1 auto"></div>
+   
+            </div>
+          </div>
+    </div>
+      </div>
+  </div>
+</div>
+</div>
 
-    </body>
-</html>
+  
