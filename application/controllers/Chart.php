@@ -16,10 +16,31 @@ class Chart extends CI_Controller {
 	{
         
          $this->data = $this->uptime->get_avg_app('');
+         $this->data2 = $this->uptime->get_avg_app_01('');
+         
+         
+         $rows=array();
         
-        //print_r($data['data'][0]);DIE();
+         
+        foreach ($this->data as $row)
+	{
+                $rows ['data'][] = $row->PROMEDIO;
+	}
+                
+        foreach ($this->data2 as $row2)
+	{
+                $rows2 ['data'][] = $row2->PROMEDIO;
+        }
+        
+                
+                $result = array();
+                array_push($result,$rows);
+                array_push($result,$rows2);
+            
+
+                
                 $this->load->view('templates/header');
-		$this->load->view('charts/charts_list', $this->data);
+		$this->load->view('charts/charts_list', $result);
 	}
         
    

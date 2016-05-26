@@ -34,18 +34,30 @@ class Uptime extends CI_Model {
     
     
      function get_view_financiador($id) {
-   
+         $mm=" select EXTRACT(MINUTE from timestamp) AS MINI from uptime where id>$id limit 1";
+         
+         $query = $this->db->query("select EXTRACT(MINUTE from timestamp) AS MINI from uptime where id>$id AND estado=0 limit 1");
+
+        if ($query->num_rows() > 0)
+        {
+            foreach ($query->result() as $row)
+            {
+              $min=$row->MINI;
+             
+           }
+        }
+        
          $sql=   "   SELECT distinct f.financiador,s.SRBMTotal as sumab, s.NamePrestador,s.Dayxweek, f.timestamp,"
                  . " EXTRACT(HOUR FROM f.timestamp) AS HORAU, EXTRACT(MINUTE FROM f.timestamp) AS MINUTE, CONCAT (s.Hour,':',s.Minute) AS HORA, CONCAT ('20',Week) AS YEAR "
                  . " FROM $this->table f, $this->table2 s"
                  . " WHERE f.estado=1 AND f.financiador=s.NameFinanciador AND f.id=$id " 
                  . " AND s.Hour=EXTRACT(HOUR FROM f.timestamp)"
-                 . " AND s.Minute=EXTRACT(MINUTE FROM f.timestamp) AND s.Dayxweek=2";
-         
+                 . " AND s.Dayxweek=2"
+                 . " AND s.Minute BETWEEN  EXTRACT(MINUTE FROM f.timestamp) AND $min"; 
         
         $query = $this->db->query($sql);
         
-      //  print_r($query);die();
+      
          if ($query) { 
             return $query->result();
         } else
@@ -119,6 +131,18 @@ class Uptime extends CI_Model {
      function get_avg_app()
     {
         $sql=" SELECT AVG(value) AS PROMEDIO FROM $this->table3 WHERE cat=0" ;
+        $query = $this->db->query($sql);
+     
+        if($query) {
+         
+            return $query->result();   
+        }
+        return 0; 
+    }
+    
+    function get_avg_app_01()
+    {
+        $sql=" SELECT AVG(value) AS PROMEDIO FROM $this->table3 WHERE cat=1" ;
         $query = $this->db->query($sql);
      
         if($query) {
