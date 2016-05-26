@@ -7,7 +7,6 @@ class Home extends CI_Controller {
         $this->load->library(array('ion_auth', 'form_validation'));
         $this->load->helper(array('url', 'language', 'security'));
         $this->load->model(array('uptime')); 
-     
         $this->data['user'] = $this->ion_auth->user($this->session->userdata('user_id'))->row();
         
     }
@@ -22,8 +21,6 @@ class Home extends CI_Controller {
             $this->data= $this->uptime->get_financiador_details('');
             $this->load->view('templates/header');
             $this->load->view('financiador/financiador_list', $this->data);
-            //$this->load->view('home/index',$this->data);
-           // var_dump($expression);die();
            
         }
     }
@@ -33,10 +30,7 @@ class Home extends CI_Controller {
             //redirect them to the login page
             redirect('auth/login', 'refresh');
         } else {
-            //set the flash data error message if there is one
-           
             $this->data['title'] = 'financiadores';
-           
             $this->load->view('templates/header', $this->data);
             $this->load->view('financiador/financiador_list', $this->data);
         
@@ -66,10 +60,7 @@ class Home extends CI_Controller {
         }
         
         $search = "";
-  
         $financiadores      = $this->uptime->get_financiador_details();
-       // print_r($financiadores);die();
-       
         $totalfinanciadores = $this->uptime->get_financiador_count();
 
         $output = array(
@@ -123,19 +114,12 @@ class Home extends CI_Controller {
             //redirect them to the login page
             redirect('auth/login', 'refresh');
         } else {
-            //set the flash data error message if there is one
-           
             $this->data['title'] = 'charts';
             $this->data= json_encode($this->uptime->get_charts_details(''));
-           // var_dump($this->data);die();
-          //  $this->load->view('templates/header', $this->data);
             $this->load->view('charts/charts_list', $this->data);
         
         }
     }
-     
-     
-     
     
      
 }

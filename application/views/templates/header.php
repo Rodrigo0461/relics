@@ -31,7 +31,7 @@
             <i class="glyphicon glyphicon-user"></i> <?php echo $this->ion_auth->user()->row()->username;?> <span class="caret"></span></a>
           <ul id="g-account-menu" class="dropdown-menu" role="menu">
            
-            <li><a href="#"><i class="glyphicon glyphicon-lock"></i>  <?php echo anchor('auth/logout','Logout'  )?></a></li>
+            <li><a href="#"><i class="glyphicon glyphicon-lock"></i>  <?php echo anchor('auth/logout','Logout'  );?></a></li>
           </ul>
         </li>
       </ul>
