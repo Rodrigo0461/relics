@@ -12,11 +12,17 @@ class Chart extends CI_Controller {
         
     }
     public function index()
+            
 	{
+        
+         $this->data = $this->uptime->get_avg_app('');
+        
+        //print_r($data['data'][0]);DIE();
                 $this->load->view('templates/header');
-		$this->load->view('charts/charts_list');
+		$this->load->view('charts/charts_list', $this->data);
 	}
-    
+        
+   
      public function data()
 	{
 		
@@ -72,7 +78,6 @@ class Chart extends CI_Controller {
 		array_push($result,$series1);
 		array_push($result,$series2);
 		array_push($result,$series3);
-                
                 array_push($result,$ser);
 		array_push($result,$ser1);
 		array_push($result,$ser2);

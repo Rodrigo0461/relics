@@ -148,11 +148,28 @@
           <div class="row">
             <div class="col-sm-9">
     
-    <div id="container2" style="width: 1100px; height: 350px; margin: 1 auto"></div>
+    <div id="container2" style="width: 950px; height: 350px; margin: 1 auto"></div>
+    <br/>
     
+    <div class="form-group">
+   <label class="col-md-4 control-label" for="singlebutton"></label>
+   <div class="col-md-4 center-block">
+    <button type="button" class="btn btn-success">Success APP 01 Valorizacion
+       <?php foreach (  $this->data as $avg):?>
+                     <?php echo htmlspecialchars($avg->PROMEDIO,ENT_QUOTES,'UTF-8');?>
+            <?php endforeach;?>               
+    
+    </button>
+    </div>
+  </div>
+   
+   
+    
+    
+
     <hr>
     
-    <div id="container3" style="width: 1100px; height: 350px; margin: 1 auto"></div>
+    <div id="container3" style="width:950px; height: 350px; margin: 1 auto"></div>
    
             </div>
           </div>

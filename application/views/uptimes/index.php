@@ -13,7 +13,7 @@
         
         <!----------------------------------------------------------------------------------->
         <div class="col-sm-9">
-                 <h3><i class="glyphicon glyphicon-dashboard"></i> Uptime New Relics</h3>  
+                 <h3><i class="glyphicon glyphicon-dashboard"></i> Tabla Patron 2014 semana 11</h3>  
                    <hr>
 	    <div class="row" width="80%">
               <table id="example" class="display" cellspacing="0" width="90%">
@@ -43,9 +43,11 @@
                         </tr>
                         <?php $total+=$reg->sumab; ?>
                       <?php endforeach;?>
+                    
                     </tbody>
+                     
                   </table>
-                <?php echo $total; ?>
+                <strong>TOTAL TRANSACCIONES :<?php echo $total; ?> </strong>
               </div>
           </div>
         <!------------------------------------------------------------------------------------->
@@ -54,6 +56,10 @@
 </div>  
               <script>
               $(document).ready(function() {
-              $('#example').DataTable();
+              $('#example').DataTable({
+                  "searching": false,
+                  "paging":   false,
+                  "bInfo": false
+              });
                  } );
          </script>-->
