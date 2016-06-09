@@ -22,11 +22,11 @@
                 <table id="example" class="display" cellspacing="0" width="90%">
                     <thead>
                       <tr>
-          		<th>financiador</th>
-                  	<th>prestador</th>
+          		<th>Financiador</th>
+                  	<th>Prestador</th>
                         <th>year</th>
                         <th>hora</th>
-                        <th>Sum total bono</th>
+                        <th>Transacciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -38,16 +38,18 @@
                             <td><?php echo htmlspecialchars($reg->NamePrestador,ENT_QUOTES,'UTF-8');?></td>
                             <td><b>2014</b></td>
                             <td><?php echo htmlspecialchars($reg->HORA,ENT_QUOTES,'UTF-8');?></td>
-                            <td><?php echo htmlspecialchars($reg->sumab,ENT_QUOTES,'UTF-8');?></td>
+                            <td><?php echo htmlspecialchars($reg->resumen,ENT_QUOTES,'UTF-8');?></td>
                         </tr>
-                        <?php $total+=$reg->sumab; ?>
+                        <?php $total+=$reg->resumen; ?>
                       <?php endforeach;?>
                     </tbody>
                 </table>
-                
-                <strong>TOTAL TRANSACCIONES :<?php echo $total; ?> </strong>
             </div>
             </div>
+            <div class="alert alert-info">
+                    <strong>TOTAL TRANSACCIONES : <?php echo $total; ?></strong>
+            </div>
+             
         </div>
    
      </div><!--div row --->

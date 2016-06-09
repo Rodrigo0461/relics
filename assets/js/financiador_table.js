@@ -17,7 +17,7 @@ $(function() {
         "bLengthChange": true,
         "bFilter": true,
         "bSort": true,
-        "iDisplayLength": 5,
+        "iDisplayLength": 10,
         "fnServerData": function ( sSource, aoData, fnCallback ) {
             aoData.push( { "name" : "financiador", "value" :  financiador });
             $.getJSON( sSource, aoData, function (json) { 

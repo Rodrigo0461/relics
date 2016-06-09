@@ -21,7 +21,7 @@
 	                marginBottom: 25
 	            },
 	            title: {
-	                text: 'Uptime App 01',
+	                text: 'Uptime App 01 / Id: 13657517',
 	                x: -20 //center
 	            },
 	            subtitle: {
@@ -52,7 +52,7 @@
 	            },
 	            legend: {
 	                layout: 'vertical',
-	                align: 'right',
+	                align : 'center',
 	                verticalAlign: 'top',
 	                x: 50,
 	                y: 100,
@@ -65,12 +65,8 @@
 	        $.getJSON("data", function(json) {
 			options.xAxis.categories = json[0]['data'];
 	        	options.series[0] = json[1];
-	        	options.series[1] = json[2];
-	        	options.series[2] = json[3];
-                        
-                        options.series[3] = json[5];
-	        	options.series[4] = json[6];
-	        	options.series[5] = json[7];
+                        options.series[1] = json[3];
+	        	
 		        chart = new Highcharts.Chart(options);
 	        });
 	    });
@@ -87,7 +83,7 @@
 	                marginBottom: 25
 	            },
 	            title: {
-	                text: 'Uptime App 02',
+	                text: 'Uptime App 02 / Id: 13657519',
 	                x: -20 //center
 	            },
 	            subtitle: {
@@ -154,7 +150,8 @@
     <div class="form-group">
    <label class="col-md-4 control-label" for="singlebutton"></label>
    <div class="col-md-4 center-block">
-       <button type="button" class="btn btn-success"><strong>Success</strong> APP 01 Valorizacion
+       <button type="button" class="btn btn-success"><strong>Success</strong> APP 01 Valorizacion 
+           
        <?php foreach (  $this->data as $avg):?>
         <strong> <?php echo number_format($avg->PROMEDIO,2,".",",");?>%</strong>     
             <?php endforeach;?>               

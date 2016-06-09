@@ -39,6 +39,9 @@ class Home extends CI_Controller {
     
     public function financiador_table() {
         /* Indexed column (used for fast and accurate table cardinality) */
+        $iDisplayStart = $this->input->get_post('iDisplayStart', true);
+        $iDisplayLength = $this->input->get_post('iDisplayLength', true);
+        
         $sIndexColumn = "id";
         $aColumns = array(
             'id',
@@ -60,12 +63,13 @@ class Home extends CI_Controller {
         }
         
         $search = "";
-        $financiadores      = $this->uptime->get_financiador_details();
+        $financiadores      = $this->uptime->get_financiador_details($sLimit);
         $totalfinanciadores = $this->uptime->get_financiador_count();
 
+        
         $output = array(
-            "iTotalRecords" => 20,
-            "iTotalDisplayRecords" => 20,
+            "iTotalRecords" => $totalfinanciadores,
+            "iTotalDisplayRecords" => $totalfinanciadores,
             "limit" => $sLimit,
             "aaData" => array()
         );

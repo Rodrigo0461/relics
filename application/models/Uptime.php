@@ -13,15 +13,17 @@ class Uptime extends CI_Model {
     }
    
     
-   function get_financiador_details() {
+   function get_financiador_details($limit=null) {
         //$sort = 'cod_financiador';
         //$select variable assign the different table fields, default value is null
        
         $sql = "SELECT  id,financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado";
-        
-            
-        //adding default table and joins to query 
+
         $sql .= " FROM $this->table ";
+        
+         if($limit != "") {
+            $sql .= " LIMIT $limit ";
+        }
         
         $query = $this->db->query($sql);
        //var_dump($query);die();
@@ -34,9 +36,8 @@ class Uptime extends CI_Model {
     
     
      function get_view_financiador($id) {
-         $mm=" select EXTRACT(MINUTE from timestamp) AS MINI from uptime where id>$id limit 1";
          
-         $query = $this->db->query("select EXTRACT(MINUTE from timestamp) AS MINI from uptime where id>$id AND estado=0 limit 1");
+        $query = $this->db->query("select EXTRACT(MINUTE from timestamp) AS MINI from uptime where id>$id AND estado=0 limit 1");
 
         if ($query->num_rows() > 0)
         {
@@ -47,12 +48,22 @@ class Uptime extends CI_Model {
            }
         }
         
-         $sql=   "   SELECT distinct f.financiador,s.SRBMTotal as sumab, s.NamePrestador,s.Dayxweek, f.timestamp,"
+        $query = $this->db->query("SELECT WEEKDAY(timestamp) as dow FROM uptime where id=$id");
+        
+        if ($query->num_rows() > 0)
+        {
+            foreach ($query->result() as $row)
+            {
+              $dow=$row->dow;
+            }
+        }
+
+        $sql=   "   SELECT distinct f.financiador,s.BonosResBonos as resumen, s.NamePrestador,s.Dayxweek, f.timestamp,"
                  . " EXTRACT(HOUR FROM f.timestamp) AS HORAU, EXTRACT(MINUTE FROM f.timestamp) AS MINUTE, CONCAT (s.Hour,':',s.Minute) AS HORA, CONCAT ('20',Week) AS YEAR "
                  . " FROM $this->table f, $this->table2 s"
                  . " WHERE f.estado=1 AND f.financiador=s.NameFinanciador AND f.id=$id " 
                  . " AND s.Hour=EXTRACT(HOUR FROM f.timestamp)"
-                 . " AND s.Dayxweek=2"
+                 . " AND s.Dayxweek=$dow"
                  . " AND s.Minute BETWEEN  EXTRACT(MINUTE FROM f.timestamp) AND $min"; 
         
         $query = $this->db->query($sql);
@@ -64,12 +75,10 @@ class Uptime extends CI_Model {
             return array();
      }
     
-    
-    
-       function get_financiador_count() {
-        $sql="select count(1) AS count from (select distinct financiador from $this->table  ) as resultado";
+    function get_financiador_count() {
+        $sql="select count(1) AS count from $this->table";
         $query = $this->db->query($sql);
-       if($query) {
+        if($query) {
             $result = $query->result();
             //print_r($result);die();
             return $result[0]->count;
@@ -95,7 +104,7 @@ class Uptime extends CI_Model {
     
      function get_data_charts()
     {
-        $sql="select TIME(`from`) AS `from`,s,t,f from $this->table3 as resultado where cat=0";
+        $sql="select `from`,value  from $this->table3 as resultado where cat=0";
                 
         $query = $this->db->query($sql);
         if($query) {
@@ -106,8 +115,7 @@ class Uptime extends CI_Model {
     
      function get_data_charts_2()
     {
-        $sql="select `from`,s,t,f from $this->table3 as resultad where cat=1";
-        
+        $sql="select `from`,value  from $this->table3 as resultad where cat=1";
                 
         $query = $this->db->query($sql);
         if($query) {
