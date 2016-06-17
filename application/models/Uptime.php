@@ -64,7 +64,7 @@ class Uptime extends CI_Model {
                  . " WHERE f.estado=1 AND f.financiador=s.NameFinanciador AND f.id=$id " 
                  . " AND s.Hour=EXTRACT(HOUR FROM f.timestamp)"
                  . " AND s.Dayxweek=$dow"
-                 . " AND s.Minute BETWEEN  EXTRACT(MINUTE FROM f.timestamp) AND $min"; 
+                 . " AND s.Minute BETWEEN  EXTRACT(MINUTE FROM f.timestamp) AND $min order by f.id desc"; 
         
         $query = $this->db->query($sql);
         

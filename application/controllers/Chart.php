@@ -1,4 +1,4 @@
-<?php
+    <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Chart extends CI_Controller {
     function __construct() {
@@ -14,12 +14,17 @@ class Chart extends CI_Controller {
     public function index()
             
 	{
+        if (!$this->ion_auth->logged_in()) {
+           
+            redirect('auth/login', 'refresh');
+
+        } 
         
          $this->data = $this->uptime->get_avg_app('');
          $this->data2 = $this->uptime->get_avg_app_01('');
          
          
-         $rows=array();
+        $rows=array();
         
          
         foreach ($this->data as $row)
@@ -32,13 +37,9 @@ class Chart extends CI_Controller {
                 $rows2 ['data'][] = $row2->PROMEDIO;
         }
         
-                
                 $result = array();
                 array_push($result,$rows);
                 array_push($result,$rows2);
-            
-
-                
                 $this->load->view('templates/header');
 		$this->load->view('charts/charts_list', $result);
 	}
@@ -46,6 +47,10 @@ class Chart extends CI_Controller {
    
      public function data()
 	{
+         
+                if (!$this->ion_auth->logged_in()) {
+                      redirect('auth/login', 'refresh');
+                } 
 		
                 $data = $this->uptime->get_data_charts('');
                 

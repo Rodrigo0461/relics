@@ -7,11 +7,10 @@ class Auth extends CI_Controller {
 		parent::__construct();
 		$this->load->database();
 		$this->load->library(array('ion_auth','form_validation'));
-//                $this->load->model(array('uptime'));
 		$this->load->helper(array('url','language'));
 
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
-                $this->data['title'] = 'Grafix';
+                $this->data['title'] = 'Uptime';
 
 		$this->lang->load('auth');
 	}
@@ -41,8 +40,8 @@ class Auth extends CI_Controller {
 			{
 				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
 			}
-
-                        $this->load->view('auth/index', $this->data);
+                        redirect('home/financiador_list', 'refresh');
+                       // $this->load->view('', $this->data);
 
 		}
 	}
@@ -86,11 +85,15 @@ class Auth extends CI_Controller {
 			$this->data['identity'] = array('name' => 'identity',
 				'id'    => 'identity',
 				'type'  => 'text',
+                                'class' => 'form-control',
+                                'placeholder'=>"E-mail", 
 				'value' => $this->form_validation->set_value('identity'),
 			);
 			$this->data['password'] = array('name' => 'password',
-				'id'   => 'password',
-				'type' => 'password',
+				'id'    => 'password',
+				'type'  => 'password',
+                                'class' => 'form-control',
+                                'placeholder'=>"Password" 
 			);
                         
 			$this->_render_page('auth/login', $this->data);
