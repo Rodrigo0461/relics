@@ -56,7 +56,8 @@
 	                verticalAlign: 'top',
 	                x: 50,
 	                y: 100,
-	                borderWidth: 0
+	                borderColor: "#909090",
+	                borderWidth: 1
 	            },
 	            
 	            series: []
@@ -73,7 +74,7 @@
         </script>
 
         
-          <script>
+    <script>
     $(document).ready(function() {
 			var options = {
 	            chart: {
@@ -112,13 +113,14 @@
 	                        this.x +': '+ this.y;
 	                }
 	            },
-	            legend: {
+	              legend: {
 	                layout: 'vertical',
-	                align: 'right',
+	                align : 'center',
 	                verticalAlign: 'top',
 	                x: 50,
 	                y: 100,
-	                borderWidth: 0
+                        borderColor: "#909090",
+	                borderWidth: 1
 	            },
 	            
 	            series: [],
