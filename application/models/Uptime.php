@@ -107,6 +107,9 @@ class Uptime extends CI_Model {
         $sql="select `from`,value  from $this->table3 as resultado where cat=0";
                 
         $query = $this->db->query($sql);
+        
+               
+        
         if($query) {
             return $query->result();   
         }
@@ -130,6 +133,8 @@ class Uptime extends CI_Model {
         
                 
         $query = $this->db->query($sql);
+        
+        
         if($query) {
             return $query->result();   
         }
@@ -140,12 +145,21 @@ class Uptime extends CI_Model {
     {
         $sql=" SELECT AVG(value) AS PROMEDIO FROM $this->table3 WHERE cat=0" ;
         $query = $this->db->query($sql);
-     
-        if($query) {
-         
-            return $query->result();   
+        
+        
+         if ($query->num_rows() > 0) {
+         foreach ($query->result() as $row) {
+        return $row->PROMEDIO;
         }
-        return 0; 
+    }   
+        
+      //  print_r($query->result());die();
+     
+//        if($query) {
+//         
+//            return $query->result();   
+//        }
+//        return 0; 
     }
     
     function get_avg_app_01()
@@ -153,11 +167,13 @@ class Uptime extends CI_Model {
         $sql=" SELECT AVG(value) AS PROMEDIO FROM $this->table3 WHERE cat=1" ;
         $query = $this->db->query($sql);
      
-        if($query) {
          
-            return $query->result();   
+         if ($query->num_rows() > 0) {
+         foreach ($query->result() as $row) {
+         return $row->PROMEDIO;
         }
-        return 0; 
+    }   
+        
     }
     
    

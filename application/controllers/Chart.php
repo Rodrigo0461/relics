@@ -7,6 +7,7 @@ class Chart extends CI_Controller {
         $this->load->library(array('ion_auth', 'form_validation'));
         $this->load->helper(array('url', 'language', 'security'));
         $this->load->model(array('uptime')); 
+        $this->load->helper('array');
      
         $this->data['user'] = $this->ion_auth->user($this->session->userdata('user_id'))->row();
         
@@ -19,29 +20,16 @@ class Chart extends CI_Controller {
             redirect('auth/login', 'refresh');
 
         } 
-        
-         $this->data = $this->uptime->get_avg_app('');
-         $this->data2 = $this->uptime->get_avg_app_01('');
-         
-         
-        $rows=array();
-        
-         
-        foreach ($this->data as $row)
-	{
-                $rows ['data'][] = $row->PROMEDIO;
-	}
+       
+        $prueba=array();
+        $prueba['PROMEDIO_01']=$this->uptime->get_avg_app('');
+        $prueba['PROMEDIO_02']=$this->uptime->get_avg_app_01('');
+      
+              
                 
-        foreach ($this->data2 as $row2)
-	{
-                $rows2 ['data'][] = $row2->PROMEDIO;
-        }
-        
-                $result = array();
-                array_push($result,$rows);
-                array_push($result,$rows2);
+//                print_r($result);die();
                 $this->load->view('templates/header');
-		$this->load->view('charts/charts_list', $result);
+		$this->load->view('charts/charts_list', $prueba);
 	}
         
    
@@ -53,49 +41,34 @@ class Chart extends CI_Controller {
                 } 
 		
                 $data = $this->uptime->get_data_charts('');
-                
                 $data2 = $this->uptime->get_data_charts_2('');
 
-                ///////////////////////////////////
+              
                 $series = array();
 		$series['name'] = 'date';
 		
 		$series1 = array();
 		$series1['name'] = 'Certificación';
 		
-//		$series2 = array();
-//		$series2['name'] = 'Tolerant';
-//		
-//		$series3 = array();
-//		$series3['name'] = 'Failed';
-                ///////////////////////////////////
-                
+
                 $ser = array();
 		$ser['name'] = 'date';
 		
 		$ser1 = array();
 		$ser1['name'] = 'Valorización';
-		
-//		$ser2 = array();
-//		$ser2['name'] = 'V Tolerant';
-//		
-//		$ser3 = array();
-//		$ser3['name'] = 'V Failed';
+
 		
 		foreach ($data as $row)
 		{
                         $series ['data'][] = $row->from;
 			$series1['data'][] = $row->value;
-//			$series2['data'][] = $row->t;
-//			$series3['data'][] = $row->f;
 		}
                 
                 foreach ($data2 as $row2)
 		{
                         $ser ['data'][] = $row2->from;
 			$ser1['data'][] = $row2->value;
-//			$ser2['data'][] = $row2->t;
-//			$ser3['data'][] = $row2->f;
+
 		}
 		
 		$result = array();

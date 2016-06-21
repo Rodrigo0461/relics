@@ -72,7 +72,7 @@
 	        });
 	    });
         </script>
-
+        
         
     <script>
     $(document).ready(function() {
@@ -146,23 +146,37 @@
           <div class="row">
             <div class="col-sm-9">
     
-    <div id="container2" style="width: 950px; height: 350px; margin: 1 auto"></div>
+                <div id="container2" style="width: 950px; height: 350px; margin: 1 auto"><hr></div>
     <br/>
     
     <div class="form-group">
-   <label class="col-md-4 control-label" for="singlebutton"></label>
-   <div class="col-md-4 center-block">
+    <label class="col-md-4 control-label" for="singlebutton"></label>
+    <div class="col-md-4 center-block">
        <button type="button" class="btn btn-success"><strong>Success</strong> APP 01 Valorizacion 
-           
-       <?php foreach (  $this->data as $avg):?>
-        <strong> <?php echo number_format($avg->PROMEDIO,2,".",",");?>%</strong>     
-            <?php endforeach;?>               
-    
-    </button>
+       <?php 
+       $prom=round($PROMEDIO_01,2);
+       $array_hora=explode(".",$prom);
+       if($array_hora[0]==1)
+            echo "$array_hora[0]00%";
+       else
+            echo "$array_hora[1]%";
+       ?>
+       </button>
+        
+       <button type="button" class="btn btn-info"><strong>Success</strong> APP 01 Certificación
+       <?php
+       $prom=round($PROMEDIO_02,2);
+       $array_hora=explode(".",$prom);
+       if($array_hora[0]==1)
+            echo "$array_hora[0]00%";
+       else
+            echo "$array_hora[1]%";
+       ?>
+       </button>
+        <hr>
+        <br/>
     </div>
-  </div>
-
-    <hr>
+    </div>
     <div id="container3" style="width:950px; height: 350px; margin: 1 auto"></div>
    
             </div>
