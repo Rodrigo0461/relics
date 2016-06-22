@@ -129,7 +129,7 @@ class Uptime extends CI_Model {
     
      function get_data_charts_3()
     {
-        $sql="select TIME(`from`) AS `from`,s,t,f from $this->table4 as resultad";
+        $sql="select `from`,value  from $this->table4 as resultad";
         
                 
         $query = $this->db->query($sql);
@@ -165,6 +165,20 @@ class Uptime extends CI_Model {
     function get_avg_app_01()
     {
         $sql=" SELECT AVG(value) AS PROMEDIO FROM $this->table3 WHERE cat=1" ;
+        $query = $this->db->query($sql);
+     
+         
+         if ($query->num_rows() > 0) {
+         foreach ($query->result() as $row) {
+         return $row->PROMEDIO;
+        }
+    }   
+        
+    }
+    
+     function get_avg_app_02()
+    {
+        $sql=" SELECT AVG(value) AS PROMEDIO FROM $this->table4" ;
         $query = $this->db->query($sql);
      
          
