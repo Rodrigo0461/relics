@@ -17,16 +17,15 @@ class Uptime extends CI_Model {
         //$sort = 'cod_financiador';
         //$select variable assign the different table fields, default value is null
        
-        $sql = "SELECT  id,financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado";
+        $sql = "SELECT  id,financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado ";
 
-        $sql .= " FROM $this->table ";
+        $sql .= " FROM $this->table ORDER BY id DESC ";
         
-         if($limit != "") {
+        if($limit != "") {
             $sql .= " LIMIT $limit ";
         }
         
         $query = $this->db->query($sql);
-       //var_dump($query);die();
 
         if ($query) { 
             return $query->result();

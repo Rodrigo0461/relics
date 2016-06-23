@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Chart extends CI_Controller {
+
     function __construct() {
         parent::__construct();
         $this->load->database();
@@ -60,7 +62,6 @@ class Chart extends CI_Controller {
 		{
                     $ser ['data'][] = $row2->from;
 		    $ser1['data'][] = $row2->value;
-
 		}
 		
 	$result = array();
@@ -88,7 +89,6 @@ class Chart extends CI_Controller {
                 {
                 $series ['data'][] = $row->from;
 		$series1['data'][] = $row->value;
-		
 		}
 		
         $result = array();
@@ -96,7 +96,6 @@ class Chart extends CI_Controller {
 	array_push($result,$series);
 	array_push($result,$series1);
         
-                
 	print (json_encode($result, JSON_NUMERIC_CHECK));
 	}
         
