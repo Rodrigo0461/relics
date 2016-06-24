@@ -1,8 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Chart extends CI_Controller {
-
     function __construct() {
         parent::__construct();
         $this->load->database();
@@ -10,7 +8,6 @@ class Chart extends CI_Controller {
         $this->load->helper(array('url', 'language', 'security'));
         $this->load->model(array('uptime')); 
         $this->load->helper('array');
-     
         $this->data['user'] = $this->ion_auth->user($this->session->userdata('user_id'))->row();
         
     }
@@ -35,7 +32,6 @@ class Chart extends CI_Controller {
         if (!$this->ion_auth->logged_in()) {
                       redirect('auth/login', 'refresh');
         } 
-		
         $data = $this->uptime->get_data_charts('');
         $data2 = $this->uptime->get_data_charts_2('');
 
@@ -62,6 +58,7 @@ class Chart extends CI_Controller {
 		{
                     $ser ['data'][] = $row2->from;
 		    $ser1['data'][] = $row2->value;
+
 		}
 		
 	$result = array();
@@ -89,6 +86,7 @@ class Chart extends CI_Controller {
                 {
                 $series ['data'][] = $row->from;
 		$series1['data'][] = $row->value;
+		
 		}
 		
         $result = array();
@@ -96,6 +94,7 @@ class Chart extends CI_Controller {
 	array_push($result,$series);
 	array_push($result,$series1);
         
+                
 	print (json_encode($result, JSON_NUMERIC_CHECK));
 	}
         

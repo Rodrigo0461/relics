@@ -1,6 +1,5 @@
 <div class="container">
   <div class="row">
-    
     <div class="col-sm-3">
       <h3><i class="glyphicon glyphicon-briefcase"></i> Toolbox</h3>
       <hr>

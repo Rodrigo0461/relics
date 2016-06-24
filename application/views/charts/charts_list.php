@@ -187,7 +187,7 @@
           
                 <button type="button" class="btn btn-info"><strong>Success</strong> APP 01 Certificación
                 <?php
-                $prom=round($PROMEDIO_03,2);
+                $prom=round($PROMEDIO_03    ,2);
                 $array_hora=explode(".",$prom);
                     if($array_hora[0]==1)
                          echo "$array_hora[0]00%";

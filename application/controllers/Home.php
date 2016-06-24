@@ -38,7 +38,6 @@ class Home extends CI_Controller {
     }
     
     public function financiador_table() {
-        /* Indexed column (used for fast and accurate table cardinality) */
         $iDisplayStart = $this->input->get_post('iDisplayStart', true);
         $iDisplayLength = $this->input->get_post('iDisplayLength', true);
         

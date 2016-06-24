@@ -14,17 +14,13 @@ class Uptime extends CI_Model {
    
     
    function get_financiador_details($limit=null) {
-        //$sort = 'cod_financiador';
-        //$select variable assign the different table fields, default value is null
-       
-        $sql = "SELECT  id,financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado ";
-
-        $sql .= " FROM $this->table ORDER BY id DESC ";
+            
+        $sql = "SELECT  id,financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado";
+        $sql .= " FROM $this->table";
         
-        if($limit != "") {
+         if($limit != "") {
             $sql .= " LIMIT $limit ";
         }
-        
         $query = $this->db->query($sql);
 
         if ($query) { 
@@ -43,9 +39,20 @@ class Uptime extends CI_Model {
             foreach ($query->result() as $row)
             {
               $min=$row->MINI;
-             
            }
         }
+        
+        
+        $query = $this->db->query("select MAX(id) as max from uptime");
+
+        if ($query->num_rows() > 0)
+        {
+            foreach ($query->result() as $row)
+            {
+              $max=$row->max;
+           }
+        }
+        
         
         $query = $this->db->query("SELECT WEEKDAY(timestamp) as dow FROM uptime where id=$id");
         
@@ -63,7 +70,8 @@ class Uptime extends CI_Model {
                  . " WHERE f.estado=1 AND f.financiador=s.NameFinanciador AND f.id=$id " 
                  . " AND s.Hour=EXTRACT(HOUR FROM f.timestamp)"
                  . " AND s.Dayxweek=$dow"
-                 . " AND s.Minute BETWEEN  EXTRACT(MINUTE FROM f.timestamp) AND $min order by f.id desc"; 
+                 . " AND s.Dayxweek<>'$max'" 
+                 . " AND s.Minute BETWEEN  EXTRACT(MINUTE FROM f.timestamp) AND '$min'"; 
         
         $query = $this->db->query($sql);
         
@@ -96,8 +104,6 @@ class Uptime extends CI_Model {
             return $query->result();
         
         }
-
-
         return 0; 
     }
     
@@ -106,8 +112,6 @@ class Uptime extends CI_Model {
         $sql="select `from`,value  from $this->table3 as resultado where cat=0";
                 
         $query = $this->db->query($sql);
-        
-               
         
         if($query) {
             return $query->result();   
@@ -145,20 +149,11 @@ class Uptime extends CI_Model {
         $sql=" SELECT AVG(value) AS PROMEDIO FROM $this->table3 WHERE cat=0" ;
         $query = $this->db->query($sql);
         
-        
-         if ($query->num_rows() > 0) {
+            if ($query->num_rows() > 0) {
          foreach ($query->result() as $row) {
         return $row->PROMEDIO;
         }
     }   
-        
-      //  print_r($query->result());die();
-     
-//        if($query) {
-//         
-//            return $query->result();   
-//        }
-//        return 0; 
     }
     
     function get_avg_app_01()

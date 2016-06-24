@@ -15,6 +15,7 @@ $(function() {
         "bPaginate": true,
         "sPaginationType": "full_numbers",
         "bLengthChange": true,
+        "searching": false,
         "bFilter": true,
         "bSort": true,
         "iDisplayLength": 10,
