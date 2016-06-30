@@ -46,7 +46,7 @@ $(function() {
             "sInfo": "Mostrando _START_ a _END_ de registros _TOTAL_",
             "sInfoEmpty": "Mostrando 0 a 0 de registros 0",
             "sInfoFiltered": "(filtrado de los registros totales _MAX_)",
-
+            "sSearch": "Buscar:"
         }
     });
     
