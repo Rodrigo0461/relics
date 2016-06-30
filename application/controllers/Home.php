@@ -40,6 +40,7 @@ class Home extends CI_Controller {
     public function financiador_table() {
         $iDisplayStart = $this->input->get_post('iDisplayStart', true);
         $iDisplayLength = $this->input->get_post('iDisplayLength', true);
+        $sSearch = $this->input->get_post('sSearch', true);
         
         $sIndexColumn = "id";
         $aColumns = array(
@@ -52,7 +53,6 @@ class Home extends CI_Controller {
             'actions'
         );
         
-      
         $sLimit = "";
         $financiador =  $this->input->get_post('financiador', true);
        
@@ -62,7 +62,20 @@ class Home extends CI_Controller {
         }
         
         $search = "";
-        $financiadores      = $this->uptime->get_financiador_details($sLimit);
+        
+        if (isset($sSearch) && !empty($sSearch)) {
+
+            for ($i = 0; $i < count($aColumns); $i++) {
+                $bSearchable = $this->input->get_post('bSearchable_' . $i, true);
+                // Individual column filtering
+                if (isset($bSearchable) && $bSearchable == 'true') {
+                    $search = $this->db->escape_like_str($sSearch);
+                }
+            }
+        }
+        
+                
+        $financiadores      = $this->uptime->get_financiador_details($search,$sLimit);
         $totalfinanciadores = $this->uptime->get_financiador_count();
 
         
@@ -83,7 +96,15 @@ class Home extends CI_Controller {
             {
                 switch ($aColumns[$i])
                 {
-
+                     case 'estado':
+                        if ($aRow->$aColumns[$i] == '1') {
+                            $row[] = 'No Disponible';
+                        } 
+                        else {
+                           $row[]= 'Disponible';
+                        }                       
+                        break;
+                    
                     case 'actions':
                         $btn = '<div class="btn-group" role="group">';
                         $btn .= '<a class="btn btn-primary"  href="view_financiador/'.$aRow->id.'" role="button">Detalle</a>';

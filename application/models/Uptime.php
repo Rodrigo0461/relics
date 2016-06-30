@@ -12,17 +12,23 @@ class Uptime extends CI_Model {
         
     }
    
-    
-   function get_financiador_details($limit=null) {
+   function get_financiador_details( $search = null,$limit = null) {
             
         $sql = "SELECT  id,financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado";
         $sql .= " FROM $this->table";
         
-         if($limit != "") {
+        if($search != "") {
+          
+                $sql .= " WHERE financiador LIKE '%$search%' ";
+        }
+
+        if($limit != "") {
             $sql .= " LIMIT $limit ";
         }
+       
         $query = $this->db->query($sql);
 
+        
         if ($query) { 
             return $query->result();
         } else
@@ -30,7 +36,7 @@ class Uptime extends CI_Model {
     }
     
     
-     function get_view_financiador($id) {
+    function get_view_financiador($id) {
          
         $query = $this->db->query("select EXTRACT(MINUTE from timestamp) AS MINI from uptime where id>$id AND estado=0 limit 1");
 
@@ -91,7 +97,6 @@ class Uptime extends CI_Model {
             return $result[0]->count;
         }
 
-
         return 0; 
     }
     
@@ -133,7 +138,6 @@ class Uptime extends CI_Model {
      function get_data_charts_3()
     {
         $sql="select `from`,value  from $this->table4 as resultad";
-        
                 
         $query = $this->db->query($sql);
         
@@ -149,7 +153,7 @@ class Uptime extends CI_Model {
         $sql=" SELECT AVG(value) AS PROMEDIO FROM $this->table3 WHERE cat=0" ;
         $query = $this->db->query($sql);
         
-            if ($query->num_rows() > 0) {
+        if ($query->num_rows() > 0) {
          foreach ($query->result() as $row) {
         return $row->PROMEDIO;
         }
@@ -184,7 +188,5 @@ class Uptime extends CI_Model {
         
     }
     
-   
-    
-    
+  
 }

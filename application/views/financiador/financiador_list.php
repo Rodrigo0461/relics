@@ -25,11 +25,11 @@
                         <tr>
                             <th>id</th>
                             <th>cod</th>
-                            <th>fdores</th>
-                            <th>year</th>
-                            <th>date</th>
+                            <th>Financiador</th>
+                            <th>año</th>
+                            <th>Fecha</th>
                             <th>status </th>
-                            <th>action</th>
+                            <th>Detalle</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
