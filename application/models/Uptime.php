@@ -22,13 +22,14 @@ class Uptime extends CI_Model {
                 $sql .= " WHERE financiador LIKE '%$search%' ";
         }
 
+        $sql.=" ORDER BY id DESC";
+        
         if($limit != "") {
             $sql .= " LIMIT $limit ";
         }
        
         $query = $this->db->query($sql);
 
-        
         if ($query) { 
             return $query->result();
         } else
@@ -38,16 +39,16 @@ class Uptime extends CI_Model {
     
     function get_view_financiador($id) {
          
-        $query = $this->db->query("select EXTRACT(MINUTE from timestamp) AS MINI from uptime where id>$id AND estado=0 limit 1");
-
+        $query = $this->db->query("select EXTRACT(MINUTE from timestamp) AS min from uptime where id>$id AND estado=0 limit 1");
+        $min=0;
+        
         if ($query->num_rows() > 0)
         {
             foreach ($query->result() as $row)
             {
-              $min=$row->MINI;
+              $min=$row->min;
            }
         }
-        
         
         $query = $this->db->query("select MAX(id) as max from uptime");
 
@@ -59,7 +60,6 @@ class Uptime extends CI_Model {
            }
         }
         
-        
         $query = $this->db->query("SELECT WEEKDAY(timestamp) as dow FROM uptime where id=$id");
         
         if ($query->num_rows() > 0)
@@ -70,6 +70,7 @@ class Uptime extends CI_Model {
             }
         }
 
+        
         $sql=   "   SELECT distinct f.financiador,s.BonosResBonos as resumen, s.NamePrestador,s.Dayxweek, f.timestamp,"
                  . " EXTRACT(HOUR FROM f.timestamp) AS HORAU, EXTRACT(MINUTE FROM f.timestamp) AS MINUTE, CONCAT (s.Hour,':',s.Minute) AS HORA, CONCAT ('20',Week) AS YEAR "
                  . " FROM $this->table f, $this->table2 s"

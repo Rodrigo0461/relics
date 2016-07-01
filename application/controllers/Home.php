@@ -98,7 +98,7 @@ class Home extends CI_Controller {
                 {
                      case 'estado':
                         if ($aRow->$aColumns[$i] == '1') {
-                            $row[] = 'No Disponible';
+                           $row[] = 'No Disponible';
                         } 
                         else {
                            $row[]= 'Disponible';

@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-sm-9">
                  <h2>Financiadores</h2>
-                <table class="table table-striped table-responsive" id="result_table" cellspacing="0" width=120%" >
+                <table class="table table-striped table-responsive" id="result_table" cellspacing="0" width=120%" style="width: 750px" >
                     <thead>
                         <tr>
                             <th>id</th>
