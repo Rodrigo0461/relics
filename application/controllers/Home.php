@@ -11,7 +11,7 @@ class Home extends CI_Controller {
         
     }
     
-    function index($page = 'home', $id = NULL, $source = NULL) {
+    public function index($page = 'home', $id = NULL, $source = NULL) {
         if (!$this->ion_auth->logged_in()) {
             //redirect them to the login page
             redirect('auth/login', 'refresh');
@@ -44,7 +44,7 @@ class Home extends CI_Controller {
         
         $sIndexColumn = "id";
         $aColumns = array(
-            'id',
+          //  'id',
             'cod_fin',
             'financiador',
             'year',
@@ -67,18 +67,16 @@ class Home extends CI_Controller {
 
             for ($i = 0; $i < count($aColumns); $i++) {
                 $bSearchable = $this->input->get_post('bSearchable_' . $i, true);
-                // Individual column filtering
+               
                 if (isset($bSearchable) && $bSearchable == 'true') {
                     $search = $this->db->escape_like_str($sSearch);
                 }
             }
         }
         
-                
         $financiadores      = $this->uptime->get_financiador_details($search,$sLimit);
         $totalfinanciadores = $this->uptime->get_financiador_count();
 
-        
         $output = array(
             "iTotalRecords" => $totalfinanciadores,
             "iTotalDisplayRecords" => $totalfinanciadores,
@@ -90,21 +88,20 @@ class Home extends CI_Controller {
         
       
         foreach ($financiadores as $aRow) {
-            
+          
             $row = array();
             for($i=0;$i<count($aColumns);$i++)
             {
                 switch ($aColumns[$i])
                 {
-                     case 'estado':
-                        if ($aRow->$aColumns[$i] == '1') {
-                           $row[] = 'No Disponible';
-                        } 
-                        else {
-                           $row[]= 'Disponible';
-                        }                       
-                        break;
                     
+                    case 'estado':
+                        $time =$this->uptime->get_status($aRow->id,$aRow->cod_fin);
+                        $diff =$this->uptime->get_time($aRow->timestamp,$time);
+                        $row[] ='<strong>'.$diff.'</strong>';
+                
+                        break;
+            
                     case 'actions':
                         $btn = '<div class="btn-group" role="group">';
                         $btn .= '<a class="btn btn-primary"  href="view_financiador/'.$aRow->id.'" role="button">Detalle</a>';
@@ -114,12 +111,13 @@ class Home extends CI_Controller {
                     default:
                         $row[] = $aRow->$aColumns[$i];
                         break;
-                }
+                    
+            }
             }
             $output['aaData'][] = $row;
             $count++;
         }
-          //print_r($output);die();
+          
         echo json_encode($output);
          
     }
@@ -127,13 +125,12 @@ class Home extends CI_Controller {
     public function view_financiador($id) {
         
         $this->data=$this->uptime->get_view_financiador($id);
+      //  print_r($this->data);die();
         $this->load->view('templates/header', $this->data);
         $this->load->view('uptimes/index', $this->data);
-        
-         
      }
      
-      public function charts_list() {
+    public function charts_list() {
         if (!$this->ion_auth->logged_in()) {
             //redirect them to the login page
             redirect('auth/login', 'refresh');

@@ -23,12 +23,11 @@
                 <table class="table table-striped table-responsive" id="result_table" cellspacing="0" width=120%" style="width: 750px" >
                     <thead>
                         <tr>
-                            <th>id</th>
                             <th>cod</th>
                             <th>Financiador</th>
                             <th>año</th>
                             <th>Fecha</th>
-                            <th>status </th>
+                            <th>Duración</th>
                             <th>Detalle</th>
                         </tr>
                     </thead>

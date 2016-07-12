@@ -33,41 +33,20 @@ class Chart extends CI_Controller {
                       redirect('auth/login', 'refresh');
         } 
         $data = $this->uptime->get_data_charts('');
-        $data2 = $this->uptime->get_data_charts_2('');
-
-              
         $series = array();
-	$series['name'] = 'date';
-		
-	$series1 = array();
-	$series1['name'] = 'Certificación';
-
-        $ser = array();
-	$ser['name'] = 'date';
-		
-	$ser1 = array();
-	$ser1['name'] = 'Valorización';
+	
+        $result = array();
+      
 
         foreach ($data as $row)
 		{
-                    $series ['data'][] = $row->from;
-		    $series1['data'][] = $row->value;
-		}
-                
-        foreach ($data2 as $row2)
-		{
-                    $ser ['data'][] = $row2->from;
-		    $ser1['data'][] = $row2->value;
+                    $time = strtotime($row->from)*1000;
 
+		    $series=array($time,$row->value);
+                    array_push($result,$series);
 		}
-		
-	$result = array();
-               
-	array_push($result,$series);
-	array_push($result,$series1);
-        array_push($result,$ser);
-	array_push($result,$ser1);
-                
+                $days_array_asc = array_reverse($result);
+
         print (json_encode($result, JSON_NUMERIC_CHECK));       
 	}
         

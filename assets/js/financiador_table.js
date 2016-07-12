@@ -31,7 +31,6 @@ $(function() {
 	"aaSorting": [[1, 'ASC']],
         "bAutoWidth": true,
         "aoColumns": [
-            {"sWidth": "5%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "10%", "bVisible": true, "bSearchable": true, "bSortable": true},
             {"sWidth": "10%", "bVisible": true, "bSearchable": false, "bSortable": true},
