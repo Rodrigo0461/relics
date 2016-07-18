@@ -11,10 +11,43 @@ class Uptime extends CI_Model {
         $this->table4  = 'APP_02';
         
     }
-   
-   function get_financiador_details( $search = null,$limit = null) {
+    
+    
+    function get_suma($avg,$diff){
         
-       // 0 vigente, 1 No Vigente
+        if($avg == "") {
+            $sql="SELECT ADDTIME('00:00:00','$diff') as ATIME";
+            $query = $this->db->query($sql);
+            
+            if ($query->num_rows() > 0)
+            {
+            foreach ($query->result() as $row)
+            {
+              return $row->ATIME;
+            }
+        }
+        }
+        
+        else{
+            $sql="SELECT ADDTIME('$avg','$diff') as ATIME";
+            $query = $this->db->query($sql);
+            
+            if ($query->num_rows() > 0)
+            {
+            foreach ($query->result() as $row)
+            {
+              return $row->ATIME;
+            }
+        }
+            
+        }
+        
+        
+    }
+   
+    function get_financiador_details( $search = null,$limit = null) {
+        
+      
         $sql =  "SELECT  id,financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado";
         $sql .= " FROM $this->table";
         
@@ -22,15 +55,17 @@ class Uptime extends CI_Model {
                 $sql .= " WHERE financiador LIKE '%$search%' AND estado=0 ";
         }
         else {
-                $sql .= " WHERE estado=0";
+                $sql .= " WHERE estado=0 ";
         }
         $sql.=" ORDER BY id DESC";
         
-        if($limit != "") {
+      if($limit != "") {
             $sql .= " LIMIT $limit ";
         }
        
+        //print_r($sql);die();
         $query = $this->db->query($sql);
+        
                
         return $query->result();
         
@@ -39,9 +74,10 @@ class Uptime extends CI_Model {
     
     function get_view_financiador($id) {
          
-        $query = $this->db->query("select EXTRACT(MINUTE from timestamp) AS min from uptime where id>$id AND estado=0 limit 1");
-        $min=0;
+        $query = $this->db->query("select EXTRACT(MINUTE from timestamp) AS min from uptime where id<$id AND estado=1 ORDER BY id DESC limit 1");
         
+                
+        $min=0;
         if ($query->num_rows() > 0)
         {
             foreach ($query->result() as $row)
@@ -67,17 +103,31 @@ class Uptime extends CI_Model {
             foreach ($query->result() as $row)
             {
               $dow=$row->dow;
+              $dow=$dow + 1;
             }
         }
 
+        $query = $this->db->query("SELECT cod_financiador FROM uptime where id=$id");
+        
+        if ($query->num_rows() > 0)
+        {
+            foreach ($query->result() as $row)
+            {
+              $cod=$row->cod_financiador;
+            }
+            
+        }
+               
+               
         $sql=   "    SELECT distinct f.financiador,s.BonosResBonos as resumen, s.NamePrestador,s.Dayxweek, f.timestamp,"
                  . " EXTRACT(HOUR FROM f.timestamp) AS HORAU, EXTRACT(MINUTE FROM f.timestamp) AS MINUTE, CONCAT (s.Hour,':',s.Minute) AS HORA, CONCAT ('20',Week) AS YEAR "
                  . " FROM $this->table f, $this->table2 s"
-                 . " WHERE f.estado=1 AND f.financiador=s.NameFinanciador AND f.id=$id " 
+                 . " WHERE f.estado=1 AND f.financiador=s.NameFinanciador AND f.cod_financiador=$cod " 
                  . " AND s.Hour=EXTRACT(HOUR FROM f.timestamp)"
                  . " AND s.Dayxweek=$dow"
                  . " AND s.Dayxweek<>'$max'" 
                  . " AND s.Minute BETWEEN  EXTRACT(MINUTE FROM f.timestamp) AND '$min'"; 
+        
         
         $query = $this->db->query($sql);
         
@@ -89,7 +139,7 @@ class Uptime extends CI_Model {
      }
     
     function get_financiador_count() {
-        $sql="select count(1) AS count from $this->table";
+        $sql="select count(1) AS count from $this->table where estado=0";
         $query = $this->db->query($sql);
         if($query) {
             $result = $query->result();
@@ -111,7 +161,7 @@ class Uptime extends CI_Model {
     }   
     }
         
-    function get_time($time1,$time2){
+    function get_diff_time($time1,$time2){
         
         $sql="SELECT  TIMEDIFF('$time1','$time2') as time";
         $query = $this->db->query($sql);
@@ -121,7 +171,22 @@ class Uptime extends CI_Model {
             return $row->time;
         }
     }   
+    
+    }
+      
+    function get_tiempo($id){
         
+        $query = $this->db->query("select timestamp from uptime where id<$id AND estado=1 ORDER BY id DESC limit 1");
+
+        if ($query->num_rows() > 0)
+        {
+            foreach ($query->result() as $row)
+            {
+             return $row->timestamp;
+            }
+        }
+    
+    
     }
     
     function get_charts_details() {

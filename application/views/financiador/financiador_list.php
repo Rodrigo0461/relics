@@ -25,7 +25,6 @@
                         <tr>
                             <th>cod</th>
                             <th>Financiador</th>
-                            <th>año</th>
                             <th>Fecha</th>
                             <th>Duración</th>
                             <th>Detalle</th>
@@ -39,10 +38,9 @@
 </div>
 <!----------------------------------------->
 
-
 </div>
 </div>
- </div>
+</div>
 </div>
 
 <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/financiador_table.js"></script>  
