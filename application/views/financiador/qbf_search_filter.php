@@ -43,6 +43,7 @@
                                         <option value="Cruz Blanca">Cruz Blanca</option>
                                         <option value="SM.CCHC Isapre">SM.CCHC Isapre</option>
                                     </select>
+                        <br><br>
                                 <button type="button"  id="date_search" class="btn btn-primary" value="Buscar">Buscar</button>
             </div>
         </div>

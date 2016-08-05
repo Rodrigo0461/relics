@@ -156,8 +156,30 @@ class Uptime extends CI_Model {
             return array();
         }
     
-    function get_financiador_count() {
-        $sql="select count(1) AS count from $this->table where estado=0";
+    function get_financiador_count($financiador,$ext_search_fields = array()) {
+        
+         $sql="select count(1) AS count from $this->table where estado=0 and financiador='$financiador' and Bono3=1";
+        
+            $ext_search = "";
+        if (!empty($ext_search_fields)) {
+            $and = "";
+            if (isset($ext_search_fields['from_date']) && $ext_search_fields['from_date'] != "") {
+                if ($ext_search_fields['to_date'] == "")
+                    $ext_search_fields['to_date'] = date('Y-m-d');
+                if ($ext_search != "") {
+                    $and = " AND ";
+                }
+                $ext_search .= $and . " (DATE_FORMAT(timestamp,'%Y-%m-%d') >= '{$ext_search_fields['from_date']}' AND DATE_FORMAT(timestamp,'%Y-%m-%d') <= '{$ext_search_fields['to_date']}')";
+            }
+          
+        }
+        
+        if ($ext_search != "") {
+                $sql .= " AND " . $ext_search;
+        }
+        
+        //print_r($sql);die();
+       
         $query = $this->db->query($sql);
         if($query) {
             $result = $query->result();

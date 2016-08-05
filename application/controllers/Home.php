@@ -20,7 +20,6 @@ class Home extends CI_Controller {
             $this->data= $this->uptime->get_financiador_details('');
             $this->load->view('templates/header');
             $this->load->view('financiador/financiador_list', $this->data);
-           
         }
     }
     
@@ -70,23 +69,25 @@ class Home extends CI_Controller {
             }
         }
              
-        
         $ext_search_fields = array(
             'from_date' => $from_date,
             'to_date' => $to_date,
         );
         
         $financiadores      = $this->uptime->get_financiador_details('',$sSearch,$sLimit,$ext_search_fields);
-        $totalfinanciadores = $this->uptime->get_financiador_details('count(id) as cant_total',$sSearch,$sLimit,$ext_search_fields);
+        $totalfinanciadores = $this->uptime->get_financiador_count($sSearch,$ext_search_fields);
 
+        //print_r($totalfinanciadores);die();
+       
         $output = array(
-            "iTotalRecords" => $totalfinanciadores[0]->cant_total,
-            "iTotalDisplayRecords" => $totalfinanciadores[0]->cant_total,
+            "iTotalRecords" => $totalfinanciadores,
+            "iTotalDisplayRecords" => $totalfinanciadores,
             "limit" => $sLimit,
             "aaData" => array()
         );
 
-        if (!isset($count))
+       // print_r($output);//die();
+        if (!isset($count)) 
             $count = 1; 
         
         $avg='';
