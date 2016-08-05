@@ -1,12 +1,21 @@
-var oTable,id, financiador, cod_financiador; 
+var oTable,id, financiador, cod_financiador,from_date, to_date,sSearch; 
 $(function() {
     
-    $("#date_search").click(function() {
-        financiador   = $("#financiador").val();
-        $(".res-sec").css("display","width:50px");
+   $("#date_search").click(function() {
+        from_date = $("#from_date").val();
+        to_date = $("#to_date").val();
+        sSearch = $("#sSearch").val();
+        if($("#quote_numbr").val() == "") {
+            if (from_date == '') {
+                $('#from_date').datepicker('setDate', '-1m');
+                $('#to_date').datepicker('setDate', 'd');
+                from_date = $('#from_date').val();
+                to_date = $('#to_date').val();
+            }
+        }
+        $(".res-sec").css("display", "");
         oTable.fnDraw();
-      
-   });
+    });
    
     oTable = $("#result_table").dataTable({
         "sDom": "<'row et-cf toppad btmpadd'<'span6'l><'span6'f><'span6'r>>t<'row'<'span6'i><'span6'p>>",
@@ -15,15 +24,25 @@ $(function() {
         "bPaginate": true,
         "sPaginationType": "full_numbers",
         "bLengthChange": true,
-        "searching": true,
+        "searching": false,
         "bFilter": true,
         "bSort": true,
         "iDisplayLength": 10,
         "fnServerData": function ( sSource, aoData, fnCallback ) {
-            aoData.push( { "name" : "financiador", "value" :  financiador });
-            $.getJSON( sSource, aoData, function (json) { 
+            aoData.push( { "name" : "sSearch", "value" :  sSearch },{"name": "from_date", "value": from_date}, {"name": "to_date", "value": to_date});
+            $.getJSON(sSource, aoData, function(json) {
                 fnCallback(json);
-
+                if (json.iTotalRecords == 0) {
+                    $("#export-buttoons").css("display", "none");
+                }
+                if (json.limit != '') {
+                    var limit = json.limit.split(',');
+                    $("#limit_start").val(limit[0]);
+                    $("#limit_end").val(limit[1]);
+                } else {
+                    $("#limit_start").val(0);
+                    $("#limit_end").val(-1);
+                }
             });
         },
         "sAjaxSource": "financiador_table",

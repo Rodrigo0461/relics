@@ -9,9 +9,7 @@ class Uptime extends CI_Model {
         $this->table2  = 'SLA112014';
         $this->table3  = 'APP_01';
         $this->table4  = 'APP_02';
-        
     }
-    
     
     function get_suma($avg,$diff){
         
@@ -42,31 +40,53 @@ class Uptime extends CI_Model {
             
         }
         
-        
     }
    
-    function get_financiador_details( $search = null,$limit = null) {
-        
-      
+    function get_financiador_details( $select = null,$search = null,$limit = null,$ext_search_fields = array()) {
+       
+        if ($select == "") {
         $sql =  "SELECT  id,financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado";
+        }
+        else {  //user defined value is setting to select section
+            $sql = "SELECT $select ";
+        }
+        
         $sql .= " FROM $this->table";
         
         if($search != "") {
-                $sql .= " WHERE financiador LIKE '%$search%' AND estado=0 ";
+                $sql .= " WHERE financiador LIKE '%$search%' AND estado=0 AND Bono3=1";
         }
         else {
-                $sql .= " WHERE estado=0 ";
+                $sql .= " WHERE estado=0 AND Bono3=1 ";
         }
+        
+        $ext_search = "";
+        
+        if (!empty($ext_search_fields)) {
+            $and = "";
+            if (isset($ext_search_fields['from_date']) && $ext_search_fields['from_date'] != "") {
+                if ($ext_search_fields['to_date'] == "")
+                    $ext_search_fields['to_date'] = date('Y-m-d');
+                if ($ext_search != "") {
+                    $and = " AND ";
+                }
+                $ext_search .= $and . " (DATE_FORMAT(timestamp,'%Y-%m-%d') >= '{$ext_search_fields['from_date']}' AND DATE_FORMAT(timestamp,'%Y-%m-%d') <= '{$ext_search_fields['to_date']}')";
+            }
+          
+        }
+        
+        if ($ext_search != "") {
+                $sql .= " AND " . $ext_search;
+        }
+        
         $sql.=" ORDER BY id DESC";
         
-      if($limit != "") {
+        if($limit != "") {
             $sql .= " LIMIT $limit ";
         }
-       
+        
         //print_r($sql);die();
         $query = $this->db->query($sql);
-        
-               
         return $query->result();
         
     }
@@ -76,7 +96,6 @@ class Uptime extends CI_Model {
          
         $query = $this->db->query("select EXTRACT(MINUTE from timestamp) AS min from uptime where id<$id AND estado=1 ORDER BY id DESC limit 1");
         
-                
         $min=0;
         if ($query->num_rows() > 0)
         {
@@ -117,7 +136,8 @@ class Uptime extends CI_Model {
             }
             
         }
-               
+        
+        print_r($min);echo " "; print_r($max); echo "  "; print_r($dow); echo " ";  echo " ";
                
         $sql=   "    SELECT distinct f.financiador,s.BonosResBonos as resumen, s.NamePrestador,s.Dayxweek, f.timestamp,"
                  . " EXTRACT(HOUR FROM f.timestamp) AS HORAU, EXTRACT(MINUTE FROM f.timestamp) AS MINUTE, CONCAT (s.Hour,':',s.Minute) AS HORA, CONCAT ('20',Week) AS YEAR "
@@ -128,15 +148,13 @@ class Uptime extends CI_Model {
                  . " AND s.Dayxweek<>'$max'" 
                  . " AND s.Minute BETWEEN  EXTRACT(MINUTE FROM f.timestamp) AND '$min'"; 
         
-        
         $query = $this->db->query($sql);
-        
       
-         if ($query) { 
+        if ($query) { 
             return $query->result();
         } else
             return array();
-     }
+        }
     
     function get_financiador_count() {
         $sql="select count(1) AS count from $this->table where estado=0";
@@ -186,12 +204,10 @@ class Uptime extends CI_Model {
             }
         }
     
-    
     }
     
     function get_charts_details() {
         $sql="select `from`,s,t,f from $this->table3 as resultado";
-        
                
         $query = $this->db->query($sql);
         if($query) {
@@ -203,7 +219,6 @@ class Uptime extends CI_Model {
     function get_data_charts()
     {
         $sql="select `from`,value  from $this->table3 as resultado where cat=0";
-                
         $query = $this->db->query($sql);
         
         if($query) {
@@ -226,9 +241,7 @@ class Uptime extends CI_Model {
     function get_data_charts_3()
     {
         $sql="select `from`,value  from $this->table4 as resultad";
-                
         $query = $this->db->query($sql);
-        
         
         if($query) {
             return $query->result();   
@@ -274,5 +287,13 @@ class Uptime extends CI_Model {
         
     }
     
-  
+    function get_fin()
+    {
+        
+        
+        $query = $this->db->query('SELECT distinct financiador as financiador FROM uptime');
+        return $query->result();
+        
+    }
+    
 }

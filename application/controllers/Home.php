@@ -29,18 +29,18 @@ class Home extends CI_Controller {
             //redirect them to the login page
             redirect('auth/login', 'refresh');
         } else {
-            $this->data['title'] = 'financiadores';
+            $this->data['title'] = 'Financiadores';
             $this->load->view('templates/header', $this->data);
-            $this->load->view('financiador/financiador_list', $this->data);
+            $this->load->view('financiador/qbf_search_filter', $this->data);
         
         }
     }
     
     public function financiador_table() {
-        $iDisplayStart = $this->input->get_post('iDisplayStart', true);
+        $iDisplayStart  = $this->input->get_post('iDisplayStart', true);
         $iDisplayLength = $this->input->get_post('iDisplayLength', true);
-        $sSearch = $this->input->get_post('sSearch', true);
-        
+        $sSearch        = $this->input->get_post('sSearch', true);
+         
         $sIndexColumn = "id";
         $aColumns = array(
             'cod_fin',
@@ -50,10 +50,11 @@ class Home extends CI_Controller {
             'actions'
         );
         
-        $sLimit = "";
-        $financiador =  $this->input->get_post('financiador', true);
-       
+        $from_date = $this->input->get_post('from_date', true);
+        $to_date = $this->input->get_post('to_date', true);
         
+        //
+        $sLimit = "";
         if (isset($iDisplayStart) && $iDisplayLength != '-1') {
             $sLimit = $iDisplayStart . "," . $iDisplayLength;
         }
@@ -61,31 +62,35 @@ class Home extends CI_Controller {
         $search = "";
         
         if (isset($sSearch) && !empty($sSearch)) {
-
             for ($i = 0; $i < count($aColumns); $i++) {
                 $bSearchable = $this->input->get_post('bSearchable_' . $i, true);
-               
                 if (isset($bSearchable) && $bSearchable == 'true') {
                     $search = $this->db->escape_like_str($sSearch);
                 }
             }
         }
+             
         
-        $financiadores      = $this->uptime->get_financiador_details($search,$sLimit);
-        $totalfinanciadores = $this->uptime->get_financiador_count();
+        $ext_search_fields = array(
+            'from_date' => $from_date,
+            'to_date' => $to_date,
+        );
+        
+        $financiadores      = $this->uptime->get_financiador_details('',$sSearch,$sLimit,$ext_search_fields);
+        $totalfinanciadores = $this->uptime->get_financiador_details('count(id) as cant_total',$sSearch,$sLimit,$ext_search_fields);
 
         $output = array(
-            "iTotalRecords" => $totalfinanciadores,
-            "iTotalDisplayRecords" => $totalfinanciadores,
+            "iTotalRecords" => $totalfinanciadores[0]->cant_total,
+            "iTotalDisplayRecords" => $totalfinanciadores[0]->cant_total,
             "limit" => $sLimit,
             "aaData" => array()
         );
+
         if (!isset($count))
             $count = 1; 
         
-        
-        
         $avg='';
+        
         foreach ($financiadores as $aRow) {
           
             $row = array();
@@ -118,17 +123,15 @@ class Home extends CI_Controller {
                         break;
             }
             }//termina el for
-            //print_r($row);die();
+           
             $output['aaData'][] = $row;
             $count++;
-           //echo "hola";echo "hola"; echo $avg;
         }//termina foreach
        
-        //echo $avg;
+        
         echo json_encode($output);
          
     }
-    
     public function view_financiador($id) {
         
         $this->data=$this->uptime->get_view_financiador($id);
