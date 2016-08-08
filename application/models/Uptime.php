@@ -93,25 +93,16 @@ class Uptime extends CI_Model {
     
     
     function get_view_financiador($id) {
-         
-        $query = $this->db->query("select EXTRACT(MINUTE from timestamp) AS min from uptime where id<$id AND estado=1 ORDER BY id DESC limit 1");
+        // Hour of offline
+        $query = $this->db->query("select DATE_FORMAT(timestamp,'%H:%i:%s') as t1,financiador from uptime where id<$id AND estado=1 ORDER BY id DESC limit 1");
         
         $min=0;
         if ($query->num_rows() > 0)
         {
             foreach ($query->result() as $row)
             {
-              $min=$row->min;
-            }
-        }
-        
-        $query = $this->db->query("select MAX(id) as max from uptime");
-
-        if ($query->num_rows() > 0)
-        {
-            foreach ($query->result() as $row)
-            {
-              $max=$row->max;
+              $t1=$row->t1;
+              $f1=$row->financiador;
             }
         }
         
@@ -122,34 +113,36 @@ class Uptime extends CI_Model {
             foreach ($query->result() as $row)
             {
               $dow=$row->dow;
-              $dow=$dow + 1;
+             
             }
         }
 
-        $query = $this->db->query("SELECT cod_financiador FROM uptime where id=$id");
+       
+        
+        $query = $this->db->query("SELECT DATE_FORMAT(timestamp,'%H:%i:%s') AS horas, cod_financiador,financiador FROM uptime where id=$id");
         
         if ($query->num_rows() > 0)
         {
             foreach ($query->result() as $row)
             {
               $cod=$row->cod_financiador;
+              $t2=$row->horas;
+              $financiadors=$row->financiador;
             }
             
         }
         
-        print_r($min);echo " "; print_r($max); echo "  "; print_r($dow); echo " ";  echo " ";
+        
+        $sql =  " SELECT BonosResBonos,NameFinanciador,NamePrestador,time "
+                . "FROM  $this->table2  "
+                . "WHERE Dayxweek=$dow AND NameFinanciador='$financiadors' AND time >'$t1' AND  time <'$t2' AND Dayxweek='$dow' ";
+               // ." AND NameFinanciador='$financiador' ";
                
-        $sql=   "    SELECT distinct f.financiador,s.BonosResBonos as resumen, s.NamePrestador,s.Dayxweek, f.timestamp,"
-                 . " EXTRACT(HOUR FROM f.timestamp) AS HORAU, EXTRACT(MINUTE FROM f.timestamp) AS MINUTE, CONCAT (s.Hour,':',s.Minute) AS HORA, CONCAT ('20',Week) AS YEAR "
-                 . " FROM $this->table f, $this->table2 s"
-                 . " WHERE f.estado=1 AND f.financiador=s.NameFinanciador AND f.cod_financiador=$cod " 
-                 . " AND s.Hour=EXTRACT(HOUR FROM f.timestamp)"
-                 . " AND s.Dayxweek=$dow"
-                 . " AND s.Dayxweek<>'$max'" 
-                 . " AND s.Minute BETWEEN  EXTRACT(MINUTE FROM f.timestamp) AND '$min'"; 
+  
         
         $query = $this->db->query($sql);
-      
+        //print_r($query);die();
+        
         if ($query) { 
             return $query->result();
         } else
@@ -158,9 +151,10 @@ class Uptime extends CI_Model {
     
     function get_financiador_count($financiador,$ext_search_fields = array()) {
         
-         $sql="select count(1) AS count from $this->table where estado=0 and financiador='$financiador' and Bono3=1";
+        $sql="select count(1) AS count from $this->table where estado=0 and financiador='$financiador' and Bono3=1";
         
-            $ext_search = "";
+        $ext_search = "";
+        
         if (!empty($ext_search_fields)) {
             $and = "";
             if (isset($ext_search_fields['from_date']) && $ext_search_fields['from_date'] != "") {

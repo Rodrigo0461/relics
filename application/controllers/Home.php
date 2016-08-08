@@ -136,6 +136,8 @@ class Home extends CI_Controller {
     public function view_financiador($id) {
         
         $this->data=$this->uptime->get_view_financiador($id);
+        
+       // print_r($this->data);die();
         $this->load->view('templates/header', $this->data);
         $this->load->view('uptimes/index', $this->data);
      }

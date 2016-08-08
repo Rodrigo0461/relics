@@ -24,7 +24,6 @@
                       <tr>
           		<th>Financiador</th>
                   	<th>Prestador</th>
-                        <th>year</th>
                         <th>hora</th>
                         <th>Transacciones</th>
                       </tr>
@@ -34,13 +33,14 @@
                         $total=0;
                         foreach (  $this->data as $reg):?>
                         <tr class="success">
-                            <td><?php echo htmlspecialchars($reg->financiador,ENT_QUOTES,'UTF-8');?></td>
+                          
+                            <td><?php echo htmlspecialchars($reg->NameFinanciador,ENT_QUOTES,'UTF-8');?></td>
                             <td><?php echo htmlspecialchars($reg->NamePrestador,ENT_QUOTES,'UTF-8');?></td>
-                            <td><b>2014</b></td>
-                            <td><?php echo htmlspecialchars($reg->HORA,ENT_QUOTES,'UTF-8');?></td>
-                            <td><?php echo htmlspecialchars($reg->resumen,ENT_QUOTES,'UTF-8');?></td>
+                            <td><?php echo htmlspecialchars($reg->time,ENT_QUOTES,'UTF-8');?></td>
+                            <td><?php echo htmlspecialchars($reg->BonosResBonos,ENT_QUOTES,'UTF-8');?></td>
+                           
                         </tr>
-                        <?php $total+=$reg->resumen; ?>
+                       <?php $total+=$reg->BonosResBonos; ?> 
                       <?php endforeach;?>
                     </tbody>
                 </table>
