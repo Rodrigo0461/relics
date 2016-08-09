@@ -42,7 +42,7 @@ class Uptime extends CI_Model {
         
     }
    
-    function get_financiador_details( $select = null,$search = null,$limit = null,$ext_search_fields = array()) {
+    function get_financiador_details( $select = null,$search = null,$limit = null,$ext_search_fields = array(),$bono= null) {
        
         if ($select == "") {
         $sql =  "SELECT  id,financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado";
@@ -54,10 +54,10 @@ class Uptime extends CI_Model {
         $sql .= " FROM $this->table";
         
         if($search != "") {
-                $sql .= " WHERE financiador LIKE '%$search%' AND estado=0 AND Bono3=1";
+                $sql .= " WHERE financiador LIKE '%$search%' AND estado=0 AND Bono3=$bono";
         }
         else {
-                $sql .= " WHERE estado=0 AND Bono3=1 ";
+                $sql .= " WHERE estado=0 AND Bono3=$bono ";
         }
         
         $ext_search = "";
@@ -136,12 +136,8 @@ class Uptime extends CI_Model {
         $sql =  " SELECT BonosResBonos,NameFinanciador,NamePrestador,time "
                 . "FROM  $this->table2  "
                 . "WHERE Dayxweek=$dow AND NameFinanciador='$financiadors' AND time >'$t1' AND  time <'$t2' AND Dayxweek='$dow' ";
-               // ." AND NameFinanciador='$financiador' ";
-               
-  
         
         $query = $this->db->query($sql);
-        //print_r($query);die();
         
         if ($query) { 
             return $query->result();
@@ -149,9 +145,9 @@ class Uptime extends CI_Model {
             return array();
         }
     
-    function get_financiador_count($financiador,$ext_search_fields = array()) {
+    function get_financiador_count($financiador,$ext_search_fields = array(),$bono) {
         
-        $sql="select count(1) AS count from $this->table where estado=0 and financiador='$financiador' and Bono3=1";
+        $sql="select count(1) AS count from $this->table where estado=0 and financiador='$financiador' and Bono3=$bono";
         
         $ext_search = "";
         
@@ -172,7 +168,6 @@ class Uptime extends CI_Model {
                 $sql .= " AND " . $ext_search;
         }
         
-        //print_r($sql);die();
        
         $query = $this->db->query($sql);
         if($query) {

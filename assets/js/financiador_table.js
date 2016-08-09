@@ -1,10 +1,11 @@
-var oTable,id, financiador, cod_financiador,from_date, to_date,sSearch; 
+var oTable,id, financiador, cod_financiador,from_date, to_date,sSearch,bono; 
 $(function() {
     
    $("#date_search").click(function() {
         from_date = $("#from_date").val();
         to_date = $("#to_date").val();
         sSearch = $("#sSearch").val();
+        bono = $("#bono").val();
         if($("#quote_numbr").val() == "") {
             if (from_date == '') {
                 $('#from_date').datepicker('setDate', '-1m');
@@ -29,7 +30,7 @@ $(function() {
         "bSort": true,
         "iDisplayLength": 10,
         "fnServerData": function ( sSource, aoData, fnCallback ) {
-            aoData.push( { "name" : "sSearch", "value" :  sSearch },{"name": "from_date", "value": from_date}, {"name": "to_date", "value": to_date});
+            aoData.push( { "name" : "sSearch", "value" :  sSearch },{"name": "from_date", "value": from_date}, {"name": "to_date", "value": to_date}, {"name": "bono", "value": bono});
             $.getJSON(sSource, aoData, function(json) {
                 fnCallback(json);
                 if (json.iTotalRecords == 0) {

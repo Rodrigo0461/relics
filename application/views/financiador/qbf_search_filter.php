@@ -23,9 +23,9 @@
                     </p>
                 </div>
                         Financiador:<select name="sSearch" id="sSearch"  >
-                                        <option value=""></option>
-                                        <option value="MasVida">MasVida</option>
+                                        <option value=" "></option>
                                         <option value="Colmena">Colmena</option>
+                                        <option value="MasVida">MasVida</option>
                                         <option value="Servicio Medico CCHC">Servicio Medico CCHC</option>
                                         <option value="Vida Camara">Vida Camara</option>
                                         <option value="FerroSalud">FerroSalud</option>
@@ -44,6 +44,13 @@
                                         <option value="SM.CCHC Isapre">SM.CCHC Isapre</option>
                                     </select>
                         <br><br>
+                        
+                            Bono:<select name="bono" id="bono"  >
+                                        <option value="1">Bono3</option>
+                                        <option value="0">Bono2</option>
+                                 </select>
+                            <br><br>
+                      
                                 <button type="button"  id="date_search" class="btn btn-primary" value="Buscar">Buscar</button>
             </div>
         </div>

@@ -39,7 +39,12 @@ class Home extends CI_Controller {
         $iDisplayStart  = $this->input->get_post('iDisplayStart', true);
         $iDisplayLength = $this->input->get_post('iDisplayLength', true);
         $sSearch        = $this->input->get_post('sSearch', true);
-         
+        $bono           = $this->input->get_post('bono', true); 
+      
+        
+        
+       // print_r($bono);die();
+        
         $sIndexColumn = "id";
         $aColumns = array(
             'cod_fin',
@@ -74,10 +79,10 @@ class Home extends CI_Controller {
             'to_date' => $to_date,
         );
         
-        $financiadores      = $this->uptime->get_financiador_details('',$sSearch,$sLimit,$ext_search_fields);
-        $totalfinanciadores = $this->uptime->get_financiador_count($sSearch,$ext_search_fields);
+        $financiadores      = $this->uptime->get_financiador_details('',$sSearch,$sLimit,$ext_search_fields,$bono);
+        $totalfinanciadores = $this->uptime->get_financiador_count($sSearch,$ext_search_fields,$bono);
 
-        //print_r($totalfinanciadores);die();
+       // print_r($totalfinanciadores);die();
        
         $output = array(
             "iTotalRecords" => $totalfinanciadores,
