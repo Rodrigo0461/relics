@@ -6,7 +6,7 @@
       <hr>
       <ul class="nav nav-stacked">
         <li><a href="<?php echo base_url(); ?>chart/" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
-        <li><a href="<?php echo base_url(); ?>home/" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
+        <li><a href="<?php echo base_url(); ?>home/financiador_list" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
       </ul>
       <hr>
 </div> 
@@ -22,8 +22,8 @@
                         Hasta <input type="text" id="to_date">
                     </p>
                 </div>
-                        Financiador:<select name="sSearch" id="sSearch"  >
-                                        <option value=" "></option>
+                    Financiador:<select name="sSearch" id="sSearch"  >
+                                        <option value="">TODOS</option>
                                         <option value="Colmena">Colmena</option>
                                         <option value="MasVida">MasVida</option>
                                         <option value="Servicio Medico CCHC">Servicio Medico CCHC</option>
@@ -44,14 +44,12 @@
                                         <option value="SM.CCHC Isapre">SM.CCHC Isapre</option>
                                     </select>
                         <br><br>
-                        
-                            Bono:<select name="bono" id="bono"  >
+                    Bono:  <select name="bono" id="bono"  >
                                         <option value="1">Bono3</option>
                                         <option value="0">Bono2</option>
-                                 </select>
+                           </select>
                             <br><br>
-                      
-                                <button type="button"  id="date_search" class="btn btn-primary" value="Buscar">Buscar</button>
+                            <button type="button"  id="date_search" class="btn btn-primary" value="Buscar">Buscar</button>
             </div>
         </div>
 </div><br>

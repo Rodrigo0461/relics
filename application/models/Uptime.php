@@ -45,16 +45,16 @@ class Uptime extends CI_Model {
     function get_financiador_details( $select = null,$search = null,$limit = null,$ext_search_fields = array(),$bono= null) {
        
         if ($select == "") {
-        $sql =  "SELECT  id,financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado";
+             $sql =  "SELECT  id,financiador,cod_financiador as cod_fin,  EXTRACT(YEAR from timestamp) AS year, timestamp,estado";
         }
-        else {  //user defined value is setting to select section
-            $sql = "SELECT $select ";
+        else {  
+             $sql = "SELECT $select ";
         }
         
         $sql .= " FROM $this->table";
         
         if($search != "") {
-                $sql .= " WHERE financiador LIKE '%$search%' AND estado=0 AND Bono3=$bono";
+                $sql .= " WHERE financiador='$search' AND estado=0 AND Bono3=$bono";
         }
         else {
                 $sql .= " WHERE estado=0 AND Bono3=$bono ";
@@ -85,7 +85,6 @@ class Uptime extends CI_Model {
             $sql .= " LIMIT $limit ";
         }
         
-        //print_r($sql);die();
         $query = $this->db->query($sql);
         return $query->result();
         
@@ -93,7 +92,7 @@ class Uptime extends CI_Model {
     
     
     function get_view_financiador($id) {
-        // Hour of offline
+       
         $query = $this->db->query("select DATE_FORMAT(timestamp,'%H:%i:%s') as t1,financiador from uptime where id<$id AND estado=1 ORDER BY id DESC limit 1");
         
         $min=0;
@@ -117,8 +116,6 @@ class Uptime extends CI_Model {
             }
         }
 
-       
-        
         $query = $this->db->query("SELECT DATE_FORMAT(timestamp,'%H:%i:%s') AS horas, cod_financiador,financiador FROM uptime where id=$id");
         
         if ($query->num_rows() > 0)
@@ -132,7 +129,6 @@ class Uptime extends CI_Model {
             
         }
         
-        
         $sql =  " SELECT BonosResBonos,NameFinanciador,NamePrestador,time "
                 . "FROM  $this->table2  "
                 . "WHERE Dayxweek=$dow AND NameFinanciador='$financiadors' AND time >'$t1' AND  time <'$t2' AND Dayxweek='$dow' ";
@@ -145,9 +141,15 @@ class Uptime extends CI_Model {
             return array();
         }
     
-    function get_financiador_count($financiador,$ext_search_fields = array(),$bono) {
+    function get_financiador_count($search,$ext_search_fields = array(),$bono = null ) {
         
-        $sql="select count(1) AS count from $this->table where estado=0 and financiador='$financiador' and Bono3=$bono";
+       if($search == "") {
+                $sql = " SELECT COUNT(1) AS count from $this->table where Bono3=$bono ";
+               
+        }
+        else {
+                $sql = " SELECT COUNT(1) AS count from $this->table where estado=0 and financiador='$search' and Bono3=$bono "; 
+        }
         
         $ext_search = "";
         
@@ -167,7 +169,6 @@ class Uptime extends CI_Model {
         if ($ext_search != "") {
                 $sql .= " AND " . $ext_search;
         }
-        
        
         $query = $this->db->query($sql);
         if($query) {

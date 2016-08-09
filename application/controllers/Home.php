@@ -19,7 +19,7 @@ class Home extends CI_Controller {
         else {
             $this->data= $this->uptime->get_financiador_details('');
             $this->load->view('templates/header');
-            $this->load->view('financiador/financiador_list', $this->data);
+            $this->load->view('financiador/qbf_search_filter', $this->data);
         }
     }
     
@@ -41,9 +41,6 @@ class Home extends CI_Controller {
         $sSearch        = $this->input->get_post('sSearch', true);
         $bono           = $this->input->get_post('bono', true); 
       
-        
-        
-       // print_r($bono);die();
         
         $sIndexColumn = "id";
         $aColumns = array(
