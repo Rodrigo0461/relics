@@ -112,7 +112,6 @@ class Uptime extends CI_Model {
             foreach ($query->result() as $row)
             {
               $dow=$row->dow;
-             
             }
         }
 
@@ -144,7 +143,7 @@ class Uptime extends CI_Model {
     function get_financiador_count($search,$ext_search_fields = array(),$bono = null ) {
         
        if($search == "") {
-                $sql = " SELECT COUNT(1) AS count from $this->table where Bono3=$bono ";
+                $sql = " SELECT COUNT(1) AS count from $this->table where estado=0 and Bono3=$bono ";
                
         }
         else {
