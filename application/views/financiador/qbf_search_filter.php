@@ -6,6 +6,7 @@
       <hr>
       <ul class="nav nav-stacked">
         <li><a href="<?php echo base_url(); ?>chart/" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
+        <li><a href="<?php echo base_url(); ?>chart/chart_prestador" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime Prestadores</a></li>
         <li><a href="<?php echo base_url(); ?>home/financiador_list" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
       </ul>
       <hr>

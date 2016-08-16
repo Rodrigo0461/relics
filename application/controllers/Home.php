@@ -11,7 +11,7 @@ class Home extends CI_Controller {
         
     }
     
-    public function index($page = 'home', $id = NULL, $source = NULL) {
+    function index($page = 'home', $id = NULL, $source = NULL) {
         if (!$this->ion_auth->logged_in()) {
             redirect('auth/login', 'refresh');
 
@@ -23,7 +23,7 @@ class Home extends CI_Controller {
         }
     }
     
-    public function financiador_list() {
+    function financiador_list() {
         if (!$this->ion_auth->logged_in()) {
             //redirect them to the login page
             redirect('auth/login', 'refresh');
@@ -35,13 +35,11 @@ class Home extends CI_Controller {
         }
     }
     
-    public function financiador_table() {
+    function financiador_table() {
         $iDisplayStart  = $this->input->get_post('iDisplayStart', true);
         $iDisplayLength = $this->input->get_post('iDisplayLength', true);
         $sSearch        = $this->input->get_post('sSearch', true);
         $bono           = $this->input->get_post('bono', true); 
-      
-        
         $sIndexColumn = "id";
         $aColumns = array(
             'cod_fin',
@@ -54,7 +52,6 @@ class Home extends CI_Controller {
         $from_date = $this->input->get_post('from_date', true);
         $to_date = $this->input->get_post('to_date', true);
         
-        //
         $sLimit = "";
         if (isset($iDisplayStart) && $iDisplayLength != '-1') {
             $sLimit = $iDisplayStart . "," . $iDisplayLength;
@@ -78,9 +75,6 @@ class Home extends CI_Controller {
         
         $financiadores      = $this->uptime->get_financiador_details('',$sSearch,$sLimit,$ext_search_fields,$bono);
         $totalfinanciadores = $this->uptime->get_financiador_count($sSearch,$ext_search_fields,$bono);
-
-       // print_r($totalfinanciadores);die();
-       
         $output = array(
             "iTotalRecords" => $totalfinanciadores,
             "iTotalDisplayRecords" => $totalfinanciadores,
@@ -88,7 +82,7 @@ class Home extends CI_Controller {
             "aaData" => array()
         );
 
-       // print_r($output);//die();
+       
         if (!isset($count)) 
             $count = 1; 
         
@@ -97,10 +91,9 @@ class Home extends CI_Controller {
         foreach ($financiadores as $aRow) {
           
             $row = array();
-           
-            $time =$this->uptime->get_status($aRow->id,$aRow->cod_fin);
+            $time =$this->uptime->get_time($aRow->id,$aRow->cod_fin);
             $diff =$this->uptime->get_diff_time($aRow->timestamp,$time);
-            $avg = $this->uptime->get_suma($avg,$diff);
+            $avg = $this->uptime->get_sum($avg,$diff);
            
             
             for($i=0;$i<count($aColumns);$i++)
@@ -108,7 +101,7 @@ class Home extends CI_Controller {
                 switch ($aColumns[$i])
                 {
                     case 'estado':
-                        $time =$this->uptime->get_status($aRow->id,$aRow->cod_fin);
+                        $time =$this->uptime->get_time($aRow->id,$aRow->cod_fin);
                         $diff =$this->uptime->get_diff_time($aRow->timestamp,$time);
                         $row[] ='<strong>'.$diff.'</strong>';
                        
@@ -135,23 +128,12 @@ class Home extends CI_Controller {
         echo json_encode($output);
          
     }
-    public function view_financiador($id) {
+    function view_financiador($id) {
         
         $this->data=$this->uptime->get_view_financiador($id);
         
-       // print_r($this->data);die();
         $this->load->view('templates/header', $this->data);
         $this->load->view('uptimes/index', $this->data);
      }
      
-    public function charts_list() {
-        if (!$this->ion_auth->logged_in()) {
-            //redirect them to the login page
-            redirect('auth/login', 'refresh');
-        } else {
-            $this->data['title'] = 'charts';
-            $this->data= json_encode($this->uptime->get_charts_details(''));
-            $this->load->view('charts/charts_list', $this->data);
-        }
-    }
 }

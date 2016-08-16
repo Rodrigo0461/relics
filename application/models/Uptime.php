@@ -2,16 +2,13 @@
 
 class Uptime extends CI_Model {
 	
-    public function __construct() {
+    function __construct() {
         parent::__construct();
-       
         $this->table  = 'uptime';
         $this->table2  = 'SLA112014';
-        $this->table3  = 'APP_01';
-        $this->table4  = 'APP_02';
     }
     
-    function get_suma($avg,$diff){
+    function get_sum($avg,$diff){
         
         if($avg == "") {
             $sql="SELECT ADDTIME('00:00:00','$diff') as ATIME";
@@ -25,7 +22,6 @@ class Uptime extends CI_Model {
             }
         }
         }
-        
         else{
             $sql="SELECT ADDTIME('$avg','$diff') as ATIME";
             $query = $this->db->query($sql);
@@ -37,9 +33,7 @@ class Uptime extends CI_Model {
               return $row->ATIME;
             }
         }
-            
         }
-        
     }
    
     function get_financiador_details( $select = null,$search = null,$limit = null,$ext_search_fields = array(),$bono= null) {
@@ -50,7 +44,6 @@ class Uptime extends CI_Model {
         else {  
              $sql = "SELECT $select ";
         }
-        
         $sql .= " FROM $this->table";
         
         if($search != "") {
@@ -72,7 +65,6 @@ class Uptime extends CI_Model {
                 }
                 $ext_search .= $and . " (DATE_FORMAT(timestamp,'%Y-%m-%d') >= '{$ext_search_fields['from_date']}' AND DATE_FORMAT(timestamp,'%Y-%m-%d') <= '{$ext_search_fields['to_date']}')";
             }
-          
         }
         
         if ($ext_search != "") {
@@ -87,7 +79,6 @@ class Uptime extends CI_Model {
         
         $query = $this->db->query($sql);
         return $query->result();
-        
     }
     
     
@@ -178,7 +169,7 @@ class Uptime extends CI_Model {
     }
     
     
-    function get_status($id,$cod_fin) {
+    function get_time($id,$cod_fin) {
        
         $sql   ="select timestamp,cod_financiador from uptime where id<$id AND estado=1 AND cod_financiador=$cod_fin  ORDER BY id DESC limit 1";
         $query = $this->db->query($sql);
@@ -202,109 +193,5 @@ class Uptime extends CI_Model {
     }   
     
     }
-      
-    function get_tiempo($id){
-        
-        $query = $this->db->query("select timestamp from uptime where id<$id AND estado=1 ORDER BY id DESC limit 1");
-
-        if ($query->num_rows() > 0)
-        {
-            foreach ($query->result() as $row)
-            {
-             return $row->timestamp;
-            }
-        }
-    
-    }
-    
-    function get_charts_details() {
-        $sql="select `from`,s,t,f from $this->table3 as resultado";
-               
-        $query = $this->db->query($sql);
-        if($query) {
-            return $query->result();
-        }
-        return 0; 
-    }
-    
-    function get_data_charts()
-    {
-        $sql="select `from`,value  from $this->table3 as resultado where cat=0";
-        $query = $this->db->query($sql);
-        
-        if($query) {
-            return $query->result();   
-        }
-        return 0; 
-    }
-    
-    function get_data_charts_2()
-    {
-        $sql="select `from`,value  from $this->table3 as resultad where cat=1";
-                
-        $query = $this->db->query($sql);
-        if($query) {
-            return $query->result();   
-        }
-        return 0; 
-    }
-    
-    function get_data_charts_3()
-    {
-        $sql="select `from`,value  from $this->table4 as resultad";
-        $query = $this->db->query($sql);
-        
-        if($query) {
-            return $query->result();   
-        }
-        return 0; 
-    }
-    
-    function get_avg_app()
-    {
-        $sql=" SELECT AVG(value) AS PROMEDIO FROM $this->table3 WHERE cat=0" ;
-        $query = $this->db->query($sql);
-        
-        if ($query->num_rows() > 0) {
-            foreach ($query->result() as $row) {
-        return $row->PROMEDIO;
-        }
-    }   
-    }
-    
-    function get_avg_app_01()
-    {
-        $sql=" SELECT AVG(value) AS PROMEDIO FROM $this->table3 WHERE cat=1" ;
-        $query = $this->db->query($sql);
-     
-        if ($query->num_rows() > 0) {
-            foreach ($query->result() as $row) {
-        return $row->PROMEDIO;
-        }
-    }   
-        
-    }
-    
-    function get_avg_app_02()
-    {
-        $sql=" SELECT AVG(value) AS PROMEDIO FROM $this->table4" ;
-        $query = $this->db->query($sql);
-     
-        if ($query->num_rows() > 0) {
-             foreach ($query->result() as $row) {
-        return $row->PROMEDIO;
-        }
-    }   
-        
-    }
-    
-    function get_fin()
-    {
-        
-        
-        $query = $this->db->query('SELECT distinct financiador as financiador FROM uptime');
-        return $query->result();
-        
-    }
-    
+       
 }
