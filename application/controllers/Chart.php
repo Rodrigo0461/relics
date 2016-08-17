@@ -22,23 +22,21 @@ class Chart extends CI_Controller {
         $this->load->view('charts/charts_list');
 	}
         
-        
-    function chart_prestador()
-            
+    function success()
 	{
         if (!$this->ion_auth->logged_in()) {
             redirect('auth/login', 'refresh');
         } 
     
-        $data=  $this->charts->get_prestador('Clinica Las Lilas S.A.');
+        $data=  $this->charts->get_success('');
         
         $series = array();
         $result = array();
 
         foreach ($data as $row)
 		{
-                    $time = strtotime($row->timestamp)*1000;
-		    $series=array($time,$row->rb);
+                    $time    = strtotime($row->from)*1000;
+		    $series  = array($time,$row->s);
                     array_push($result,$series);
 		}
                 $days_array_asc = array_reverse($result);
@@ -46,33 +44,50 @@ class Chart extends CI_Controller {
         print (json_encode($result, JSON_NUMERIC_CHECK));      
 	}    
         
+    function tolerant()
             
-    public function data()
 	{
-		
-                $data = $this->charts->get_data_charts('');
-                ///////////////////////////////////
-                $series = array();
-		$series1 = array();
-                $series2 = array();
-        	$series3 = array();
+        if (!$this->ion_auth->logged_in()) {
+            redirect('auth/login', 'refresh');
+        } 
+    
+        $data=  $this->charts->get_tolerant('');
+        
+        $series = array();
+        $result = array();
 
-		foreach ($data as $row)
+        foreach ($data as $row)
 		{
-                        $series['data'][] = $row->from;
-			$series1['data'][] = $row->s;
-			$series2['data'][] = $row->t;
-			$series3['data'][] = $row->f;
+                    $time = strtotime($row->from)*1000;
+		    $series=array($time,$row->t);
+                    array_push($result,$series);
 		}
+                $days_array_asc = array_reverse($result);
                 
-		
-		$result = array();
-		array_push($result,$series);
-		array_push($result,$series1);
-		array_push($result,$series2);
-		array_push($result,$series3);
+        print (json_encode($result, JSON_NUMERIC_CHECK));      
+	}    
+       
+    function failed()
+            
+	{
+        if (!$this->ion_auth->logged_in()) {
+            redirect('auth/login', 'refresh');
+        } 
+    
+        $data=  $this->charts->get_failed('');
+        
+        $series = array();
+        $result = array();
+
+        foreach ($data as $row)
+		{
+                    $time = strtotime($row->from)*1000;
+		    $series=array($time,$row->f);
+                    array_push($result,$series);
+		}
+                $days_array_asc = array_reverse($result);
                 
-		print (json_encode($result, JSON_NUMERIC_CHECK));
-	}
+        print (json_encode($result, JSON_NUMERIC_CHECK));      
+	}    
     
 }

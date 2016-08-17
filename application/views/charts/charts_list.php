@@ -14,65 +14,63 @@
    
      <script type="text/javascript">
                
-    $(document).ready(function() {
-			var options = {
-	            chart: {
-	                renderTo: 'container',
-	                type: 'line',
-	                marginRight: 130,
-	                marginBottom: 25
-	            },
-	            title: {
-	                text: 'Uptime App 01',
-	                x: -20 //center
-	            },
-	            subtitle: {
-	                text: "Request's",
-	                x: -20
-	            },
-	            xAxis: {
-	                categories: [],
-                        maxPadding: 2
-                       
-	            },
-	            yAxis: {
-	                title: {
-	                    text: 'Requests'
-	                },
-	                plotLines: [{
-	                    value: 0,
-	                    width: 1,
-	                    color: '#808080'
-	                }]
-	            },
-	            tooltip: {
-	                formatter: function() {
-	                        return '<b>'+ this.series.name +'</b><br/>'+
-	                        this.x +': '+ this.y;
-	                }
-	            },
-	            legend: {
-	                layout: 'vertical',
-	                align: 'right',
-	                verticalAlign: 'top',
-	                x: 50,
-	                y: 100,
-	                borderWidth: 0
-	            },
-	            
-	            series: []
-	        }
-	        
-	        $.getJSON("data", function(json) {
-			options.xAxis.categories = json[0]['data'];
-	        	options.series[0] = json[1];
-	        	options.series[1] = json[2];
-	        	options.series[2] = json[3];
-                        
-                       
-		        chart = new Highcharts.Chart(options);
-	        });
-	    });
+    $(function () {
+    var seriesOptions = [],
+        seriesCounter = 0,
+        names = ['success','tolerant','failed'];
+
+   
+    function createChart() {
+
+        $('#container').highcharts('StockChart', {
+
+            rangeSelector: {
+                selected: 4
+            },
+
+            legend: {
+            enabled: true,
+            layout: 'vertical',
+            maxHeight: 100               
+            },
+
+            yAxis: {
+                
+                plotLines: [{
+                    value: 0,
+                    width: 2,
+                    color: 'silver'
+                }]
+            },
+
+            tooltip: {
+                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                valueDecimals: 2
+            },
+
+            series: seriesOptions
+        });
+    }
+
+    $.each(names, function (i, name) {
+
+        $.getJSON(name,    function (data) {
+
+            seriesOptions[i] = {
+                name: name,
+                data: data
+            };
+
+            // As we're loading the data asynchronously, we don't know what order it will arrive. So
+            // we keep a counter and create the chart when all the data is loaded.
+            seriesCounter += 1;
+
+            if (seriesCounter === names.length) {
+                createChart();
+            }
+        });
+    });
+});
                 
                 </script>
 
@@ -85,13 +83,8 @@
     <div class="content row" id="content">
           <div class="row">
             <div class="col-sm-9">
-                <div id="container" style="width: 950px; height: 350px; margin: 1 auto"><hr></div>  <br/><br/>
-  
+                <div id="container" style="width: 950px; height: 550px; margin: 1 auto"><hr></div>  <br/><br/>
     
-    
-    
-    
-   
     </div>
     </div>
     </div>
