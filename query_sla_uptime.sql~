@@ -1,0 +1,19 @@
+SELECT s.NamePrestador, s.NameFinanciador,s.time, s.Dayxweek  ,u.cod_financiador, u.financiador, u.timestamp
+FROM SLA112014 s, uptime u 
+WHERE s.NamePrestador='Clinica Las Lilas S.A.' 
+AND   s.NameFinanciador=u.financiador
+AND   s.Dayxweek=4
+AND u.timestamp >'2016-07-17' AND <='2016-07-18';
+
+
+
+
+SELECT s.NamePrestador, s.NameFinanciador,s.time, s.Dayxweek  ,u.cod_financiador, u.financiador, u.timestamp FROM 
+SLA112014 s, uptime u  
+WHERE s.NamePrestador='Clinica Las Lilas S.A.' 
+AND   s.NameFinanciador=u.financiador 
+AND   s.Dayxweek=4 AND u.timestamp >='2016-07-17' 
+AND u.timestamp<='2016-07-19';
+
+
+

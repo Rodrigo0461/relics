@@ -5,7 +5,7 @@
       <hr>
       <ul class="nav nav-stacked">
         <li><a href="<?php echo base_url(); ?>chart/" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime</a></li>
-        <li><a href="<?php echo base_url(); ?>chart/chart_prestador" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime Prestadores</a></li>
+        <li><a href="<?php echo base_url(); ?>chart_ps/" target="ext"><i class="glyphicon glyphicon-stats"></i> Uptime Prestadores</a></li>
         <li><a href="<?php echo base_url(); ?>home/financiador_list" target="ext"><i class="glyphicon glyphicon-list-alt"></i> Reports</a></li>
       </ul>
       <hr>
@@ -83,7 +83,7 @@
     <div class="content row" id="content">
           <div class="row">
             <div class="col-sm-9">
-                <div id="container" style="width: 950px; height: 550px; margin: 1 auto"><hr></div>  <br/><br/>
+                <div id="container" style="width: 950px; height: 500px; margin: 1 auto"><hr></div>  <br/><br/>
     
     </div>
     </div>
