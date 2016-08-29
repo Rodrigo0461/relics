@@ -85,11 +85,23 @@ FROM uptime f, SLA112014 s WHERE f.estado=1 AND f.financiador=s.NameFinanciador 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+CREATE VIEW VISTA_01 AS        
+SELECT distinct s.id,u.id,s.id AS SID,u.cod_financiador, u.financiador, u.timestamp, s.NameFinanciador,s.NamePrestador,s.time 
+FROM uptime u INNER JOIN SLA112014 s ON u.cod_financiador=s.Id_cod_financiador 
+ WHERE                u.financiador='Colmena' AND   
+                      s.NameFinanciador='Colmena' AND 
+		      u.estado=0                  AND 
+                      s.NamePrestador='Centro Medico Antofagasta S.A.'  AND
+                      u.timestamp > '2016-08-17'
+		      group by u.timestamp
+                      order by u.timestamp desc;
+
+############# after ######################3
+
+SELECT  cod_financiador,financiador,timestamp FROM VISTA_01 GROUP BY SID;
 
 
-
-
-
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 
